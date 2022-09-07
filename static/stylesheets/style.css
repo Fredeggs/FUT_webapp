@@ -397,7 +397,7 @@ body {
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: 0;
+    top: 2;
     width: 100vw;
     left: 0;
     z-index: -1;
@@ -422,8 +422,56 @@ body {
   }
   
   .home-hero h1 {
-    width: 100vw;
     margin-bottom: 4rem;
+  }
+
+  .home-hero h4 {
+    margin-bottom: 4rem;
+  }
+
+  .home-hero-bot{
+    display: flex;
+    flex-wrap: wrap;
+    background-color: white;
+
+  }
+
+  .info-block{
+    background-color: #957FEF;
+    color: black;
+    width: 45vw;
+
+  }
+
+  .info-block ul{
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .info-block li{
+    display: flex;
+    align-items: flex-start;  
+  }
+
+  .info-block li{
+    margin-bottom: 3vw;
+  }
+
+  .info-block span {
+    font-size: 30px;
+  }
+
+  .info-block i {
+    scale: 2.5;
+    margin-right: 15px;
+  }
+
+  #user_form {
+    background-color: red;
+    width: 45vw;
   }
   
   /* .home-hero:before {

@@ -80,6 +80,7 @@ def signup():
 
         except IntegrityError:
             flash("Username already taken", "danger")
+            # return render_template("users/signup.html", form=form)
             return render_template("users/signup.html", form=form)
 
         do_login(user)
@@ -87,7 +88,7 @@ def signup():
         return redirect("/")
 
     else:
-        return render_template("users/signup.html", form=form)
+        return render_template("home-anon.html", form=form)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -149,4 +150,4 @@ def homepage():
         return render_template("home.html")
 
     else:
-        return render_template("home-anon.html")
+        return redirect("/signup")
