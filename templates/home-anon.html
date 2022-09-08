@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="home-hero">
-  <div>
+  <div id="top">
     <h1>
       <i class="fa fas fa-gamepad"></i>
       <span>FUT Webapp</span>
     </h1>
-    <h4>Design and share your FIFA Ultimate Teams in the FUT Web App!</h4> 
+    <h2>Design and share your FIFA Ultimate Teams in the FUT Web App!</h2> 
   </div>
   <div class="home-hero-bot">
     <div class="info-block">
@@ -25,18 +25,21 @@
         </li>
       </ul>
     </div>
-    <form method="POST" id="user_form">
-      {{ form.hidden_tag() }}
-
-      {% for field in form if field.widget.input_type != 'hidden' %}
-        {% for error in field.errors %}
-          <span class="text-danger">{{ error }}</span>
+    <div class="form-block">
+      <h4>Sign up for access to the FUT Web App</h4>
+      <form method="POST" id="user_form">
+        {{ form.hidden_tag() }}
+  
+        {% for field in form if field.widget.input_type != 'hidden' %}
+          {% for error in field.errors %}
+            <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+          {{ field(placeholder=field.label.text, class="form-control") }}
         {% endfor %}
-        {{ field(placeholder=field.label.text, class="form-control") }}
-      {% endfor %}
-
-      <button class="btn btn-primary btn-lg btn-block">Sign me up!</button>
-    </form>
+  
+        <button class="btn btn-primary btn-lg btn-block">Sign me up!</button>
+      </form>
+    </div>
   </div>
 </div>
 {% endblock %}

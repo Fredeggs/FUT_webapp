@@ -88,7 +88,7 @@ def signup():
         return redirect("/")
 
     else:
-        return render_template("home-anon.html", form=form)
+        return render_template("users/signup.html", form=form)
 
 
 @app.route("/login", methods=["GET", "POST"])

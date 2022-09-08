@@ -1,7 +1,7 @@
 /* ====================== General */
 
 body {
-    background-color: #957FEF;
+    background-color: #6958EE;
   }
   
   body.error-404 {
@@ -404,10 +404,9 @@ body {
     background-size: cover;
     background-position: center center;
     color: black;
-    background-color: #957FEF;
+    background-color: #6958EE;
     text-align: center;
     padding: 1rem;
-    text-shadow: 0 0 8px #66757f;
   }
 
   .home-hero i{
@@ -429,15 +428,17 @@ body {
     margin-bottom: 4rem;
   }
 
+  .home-hero #top{
+    margin-bottom: 50px;
+  }
+
   .home-hero-bot{
     display: flex;
     flex-wrap: wrap;
-    background-color: white;
-
   }
 
   .info-block{
-    background-color: #957FEF;
+    background-color: #6958EE;
     color: black;
     width: 45vw;
 
@@ -469,21 +470,21 @@ body {
     margin-right: 15px;
   }
 
-  #user_form {
-    background-color: red;
-    width: 45vw;
+  .form-block{
+    border-radius: 20px;
+    background-color: #ccc;
   }
-  
-  /* .home-hero:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #957FEF;
-  } */
-  
+
+  .form-block h4{
+    margin-top: 20px;
+  }
+
+  .form-block form {
+    width: 45vw;
+    border-radius: 50px;
+    padding: 0 30px 0 30px;
+  }
+
   /* ============================== Signed in Home */
   
   #home-aside > .user-card {
