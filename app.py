@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, request, flash, redirect, session, g
+from flask import Flask, render_template, request, flash, redirect, session, g, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
@@ -151,3 +151,47 @@ def homepage():
 
     else:
         return redirect("/signup")
+
+
+@app.route("/teams")
+def homepage_teams():
+    """Retrieve data from the Teams model for the homepage"""
+    if g.user:
+
+        # following_ids = [user.id for user in g.user.following]
+        # messages = (
+        #     Message.query.filter(
+        #         (Message.user_id.in_(following_ids)) | (Message.user_id == g.user.id)
+        #     )
+        #     .order_by(Message.timestamp.desc())
+        #     .limit(100)
+        #     .all()
+        # )
+
+        # likes = Likes.query.filter(Likes.user_id == g.user.id).all()
+        # like_ids = [like.message_id for like in likes]
+
+        # return render_template("home.html", messages=messages, likes=like_ids)
+        return jsonify()
+
+
+@app.route("/players")
+def homepage_players():
+    """Retrieve data from the Players model for the homepage"""
+    if g.user:
+
+        # following_ids = [user.id for user in g.user.following]
+        # messages = (
+        #     Message.query.filter(
+        #         (Message.user_id.in_(following_ids)) | (Message.user_id == g.user.id)
+        #     )
+        #     .order_by(Message.timestamp.desc())
+        #     .limit(100)
+        #     .all()
+        # )
+
+        # likes = Likes.query.filter(Likes.user_id == g.user.id).all()
+        # like_ids = [like.message_id for like in likes]
+
+        # return render_template("home.html", messages=messages, likes=like_ids)
+        return jsonify()

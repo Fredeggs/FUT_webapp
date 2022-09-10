@@ -119,11 +119,6 @@ class Team(db.Model):
         default="4-4-2",
     )
 
-    # will inevitably need work
-    comment_id = db.Column(
-        db.Integer,
-    )
-
     user_id = db.Column(
         db.Integer,
         db.ForeignKey("users.id", ondelete="CASCADE"),
@@ -214,6 +209,20 @@ class RosterAssignment(db.Model):
     team_id = db.Column(
         db.Integer,
         db.ForeignKey("teams.id", ondelete="cascade"),
+    )
+
+
+class Comments(db.Model):
+    """Mapping user likes to teams."""
+
+    __tablename__ = "comments"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="cascade"))
+
+    team_id = db.Column(
+        db.Integer, db.ForeignKey("teams.id", ondelete="cascade"), unique=True
     )
 
 
