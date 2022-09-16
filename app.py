@@ -1,11 +1,14 @@
 import os
+from tokenize import String
 
 from flask import Flask, render_template, request, flash, redirect, session, g, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 
 from forms import UserAddForm, LoginForm
-from models import db, connect_db, User, Likes
+from models import Team, db, connect_db, User, Likes
 
 CURR_USER_KEY = "curr_user"
 
@@ -153,30 +156,77 @@ def homepage():
         return redirect("/signup")
 
 
-@app.route("/teams")
-def homepage_teams():
-    """Retrieve data from the Teams model for the homepage"""
+@app.route("/api/teams")
+def get_teams():
+    """Make a request to the Teams model to filter through Teams"""
     if g.user:
 
-        # following_ids = [user.id for user in g.user.following]
-        # messages = (
-        #     Message.query.filter(
-        #         (Message.user_id.in_(following_ids)) | (Message.user_id == g.user.id)
-        #     )
-        #     .order_by(Message.timestamp.desc())
-        #     .limit(100)
-        #     .all()
-        # )
+        price_min = request.args.get("price_min")
+        price_max = request.args.get("price_max")
+        rating_min = request.args.get("rating_min")
+        rating_max = request.args.get("rating_max")
+        formation = request.args.get("formation")
+        sort = request.args.get("sort")
 
-        # likes = Likes.query.filter(Likes.user_id == g.user.id).all()
-        # like_ids = [like.message_id for like in likes]
+        queries = []
 
-        # return render_template("home.html", messages=messages, likes=like_ids)
-        return jsonify()
+        try:
+            queries.append(Team.price >= int(price_min))
+        except:
+            pass
+
+        try:
+            queries.append(Team.price <= int(price_max))
+        except:
+            pass
+
+        try:
+            queries.append(Team.rating >= int(rating_min))
+        except:
+            pass
+
+        try:
+            queries.append(Team.rating <= int(rating_max))
+        except:
+            pass
+
+        try:
+            queries.append(Team.formation_id == int(formation))
+        except:
+            pass
+
+        if sort == "likes":
+            # should return a list of the Teams in order of the # of likes
+            print("sorted by likes")
+            team_likes = (
+                db.session.query(Team.name, func.count(Team.likes).label("total_likes"))
+                .join(Likes)
+                .filter(*queries)
+                .group_by(Team)
+                .order_by("total_likes desc")
+                .all()
+            )
+            print(team_likes)
+            return jsonify()
+
+        if sort == "comments":
+            # should return a list of the Teams in order of the # of comments
+            print("sorted by comments")
+            return jsonify()
+
+        if sort == "ratings":
+            # should return a list of the Teams in order of ratings (highest to lowest)
+            print("sorted by ratings")
+            return jsonify()
+
+        if sort == "newest":
+            # should return a list of the Teams ordered by date (newest / most recent)
+            print("sorted by date (newest)")
+            return jsonify()
 
 
-@app.route("/players")
-def homepage_players():
+@app.route("/api/players")
+def get_players():
     """Retrieve data from the Players model for the homepage"""
     if g.user:
 

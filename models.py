@@ -15,9 +15,8 @@ class Likes(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="cascade"))
 
-    team_id = db.Column(
-        db.Integer, db.ForeignKey("teams.id", ondelete="cascade"), unique=True
-    )
+    team_id = db.Column(db.Integer, db.ForeignKey("teams.id", ondelete="cascade"))
+    team = db.relationship("Team", backref="likes")
 
 
 class User(db.Model):
@@ -98,6 +97,22 @@ class User(db.Model):
         return False
 
 
+class Comment(db.Model):
+    """Mapping user comments to teams."""
+
+    __tablename__ = "comments"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="cascade"))
+    user = db.relationship("User")
+
+    team_id = db.Column(
+        db.Integer, db.ForeignKey("teams.id", ondelete="cascade"), unique=True
+    )
+    team = db.relationship("Team", backref="comments")
+
+
 class Team(db.Model):
     """A Team made up of Players."""
 
@@ -113,11 +128,22 @@ class Team(db.Model):
         nullable=False,
     )
 
-    formation = db.Column(
-        db.String(20),
+    rating = db.Column(
+        db.Integer,
         nullable=False,
-        default="4-4-2",
     )
+
+    price = db.Column(
+        db.Integer,
+        nullable=False,
+    )
+
+    formation_id = db.Column(
+        db.Integer,
+        db.ForeignKey("formations.id"),
+        nullable=False,
+    )
+    formation = db.relationship("Formation")
 
     user_id = db.Column(
         db.Integer,
@@ -125,7 +151,6 @@ class Team(db.Model):
         nullable=False,
     )
     user = db.relationship("User")
-
     players = db.relationship("Player", secondary="roster_assignments")
 
 
@@ -212,17 +237,19 @@ class RosterAssignment(db.Model):
     )
 
 
-class Comments(db.Model):
-    """Mapping user likes to teams."""
+class Formation(db.Model):
+    """A Team formation - used as an attribute on a Team"""
 
-    __tablename__ = "comments"
+    __tablename__ = "formations"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
 
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="cascade"))
-
-    team_id = db.Column(
-        db.Integer, db.ForeignKey("teams.id", ondelete="cascade"), unique=True
+    name = db.Column(
+        db.String(15),
+        nullable=False,
     )
 
 

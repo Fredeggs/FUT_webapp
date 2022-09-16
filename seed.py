@@ -1,11 +1,17 @@
 """Seed database with sample data from CSV Files."""
 
 from csv import DictReader
+from unicodedata import name
 from app import db
-from models import User, Nation, Team, Club, Player, RosterAssignment
+from models import Likes, User, Nation, Team, Club, Player, RosterAssignment, Formation
 
 # db.drop_all()
 # db.create_all()
+
+users = [
+    User(id=2, email="test_email1@gmail.com", username="test_user1", password="test"),
+    User(id=3, email="test_email2@gmail.com", username="test_user2", password="test"),
+]
 
 nations = [
     Nation(name="Albania"),
@@ -102,8 +108,34 @@ clubs = [
     Club(name="EA Guingamp"),
 ]
 
+formations = [
+    Formation(name="3-1-4-2"),
+    Formation(name="3-4-1-2"),
+    Formation(name="3-4-2-1"),
+    Formation(name="3-4-3"),
+    Formation(name="3-5-2"),
+    Formation(name="4-1-2-1-2"),
+    Formation(name="4-1-3-2"),
+    Formation(name="4-1-4-1"),
+    Formation(name="4-2-2-2"),
+    Formation(name="4-2-3-1"),
+    Formation(name="4-2-4"),
+    Formation(name="4-3-1-2"),
+    Formation(name="4-3-2-1"),
+    Formation(name="4-3-3"),
+    Formation(name="4-4-1-1"),
+    Formation(name="4-4-2"),
+    Formation(name="4-5-1"),
+    Formation(name="5-2-1-2"),
+    Formation(name="5-2-2-1"),
+    Formation(name="5-3-2"),
+    Formation(name="5-4-1"),
+]
+
+db.session.add_all(users)
 db.session.add_all(nations)
 db.session.add_all(clubs)
+db.session.add_all(formations)
 db.session.commit()
 
 players = [
@@ -256,8 +288,8 @@ db.session.add_all(players)
 db.session.commit()
 
 teams = [
-    Team(name="test Team 1", formation="4-4-2", user_id=1),
-    Team(name="test Team 2", formation="4-2-3-1", user_id=1),
+    Team(name="test Team 1", formation_id=1, user_id=1, price=123456789, rating=78),
+    Team(name="test Team 2", formation_id=2, user_id=1, price=12, rating=34),
 ]
 
 db.session.add_all(teams)
@@ -289,4 +321,14 @@ roster_assignments = [
 ]
 
 db.session.add_all(roster_assignments)
+db.session.commit()
+
+likes = [
+    Likes(user_id=1, team_id=1),
+    Likes(user_id=1, team_id=2),
+    Likes(user_id=2, team_id=2),
+    Likes(user_id=3, team_id=2),
+]
+
+db.session.add_all(likes)
 db.session.commit()
