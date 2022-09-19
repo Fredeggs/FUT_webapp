@@ -69,39 +69,44 @@ def signup():
     and re-present form.
     """
 
-    form = UserAddForm()
+    signupform = UserAddForm()
+    loginform = LoginForm()
 
-    if form.validate_on_submit():
+    if signupform.validate_on_submit():
         try:
             user = User.signup(
-                username=form.username.data,
-                password=form.password.data,
-                email=form.email.data,
-                image_url=form.image_url.data or User.image_url.default.arg,
+                username=signupform.username.data,
+                password=signupform.password.data,
+                email=signupform.email.data,
+                image_url=signupform.image_url.data or User.image_url.default.arg,
             )
             db.session.commit()
 
         except IntegrityError:
             flash("Username already taken", "danger")
-            # return render_template("users/signup.html", form=form)
-            return render_template("users/signup.html", form=form)
+            return render_template(
+                "landing.html", signupform=signupform, loginform=loginform
+            )
 
         do_login(user)
 
-        return redirect("/")
+        return redirect("/teams")
 
     else:
-        return render_template("users/signup.html", form=form)
+        return render_template(
+            "landing.html", signupform=signupform, loginform=loginform
+        )
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Handle user login."""
 
-    form = LoginForm()
+    loginform = LoginForm()
+    signupform = UserAddForm()
 
-    if form.validate_on_submit():
-        user = User.authenticate(form.username.data, form.password.data)
+    if loginform.validate_on_submit():
+        user = User.authenticate(loginform.username.data, loginform.password.data)
 
         if user:
             do_login(user)
@@ -110,7 +115,7 @@ def login():
 
         flash("Invalid credentials.", "danger")
 
-    return render_template("users/login.html", form=form)
+    return redirect("/")
 
 
 @app.route("/logout")
@@ -128,32 +133,25 @@ def logout():
 
 @app.route("/")
 def homepage():
-    """Show homepage:
-
-    - anon users: no messages
-    - logged in: 100 most recent messages of followed_users
-    """
+    """Show landing page or redirect to Teams page"""
 
     if g.user:
 
-        # following_ids = [user.id for user in g.user.following]
-        # messages = (
-        #     Message.query.filter(
-        #         (Message.user_id.in_(following_ids)) | (Message.user_id == g.user.id)
-        #     )
-        #     .order_by(Message.timestamp.desc())
-        #     .limit(100)
-        #     .all()
-        # )
-
-        # likes = Likes.query.filter(Likes.user_id == g.user.id).all()
-        # like_ids = [like.message_id for like in likes]
-
-        # return render_template("home.html", messages=messages, likes=like_ids)
-        return render_template("home.html")
+        return redirect("/teams")
 
     else:
-        return redirect("/signup")
+        loginform = LoginForm()
+        signupform = UserAddForm()
+
+        return render_template(
+            "landing.html", loginform=loginform, signupform=signupform
+        )
+
+
+@app.route("/teams")
+def teams_page():
+    if g.user:
+        return render_template("home1.html")
 
 
 @app.route("/api/teams")

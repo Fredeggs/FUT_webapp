@@ -5672,7 +5672,7 @@ ul {
 }
 .common-hero {
   height: 385px;
-  background: url('../images/uploads/user-hero-bg.jpg') no-repeat;
+  background-color: #020d18;
 }
 .common-hero:before {
   background-color: rgba(0, 0, 0, 0.4);
@@ -5711,7 +5711,7 @@ ul {
   background-color: rgba(0, 0, 0, 0.4);
 }
 .landing-hero {
-  background-image: url('../images/uploads/user-hero-bg.jpg');
+  background-color: #020d18;
   box-shadow: inset 0 0 1000px rgba(0, 0, 0, 0.5);
   text-align: center;
   padding: 110px 0;
@@ -5725,9 +5725,12 @@ ul {
   font-family: 'Dosis', sans-serif;
   font-size: 48px;
   line-height: 56px;
+  text-align: left;
+  margin-left: 20vw;
 }
 .landing-hero h2.text-yellow {
   color: #d2eb33;
+  margin-bottom: 12px;
 }
 .landing-hero h2:not(.text-yellow) {
   font-weight: 300;
@@ -5741,6 +5744,16 @@ ul {
 }
 .landing-hero .redbtn:hover {
   color: #fff;
+}
+.landing-hero .yellowbtn {
+  display: inline-block;
+  width: 210px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+}
+.landing-hero .yellowbtn:hover {
+  color: black;
 }
 .landing-version {
   text-align: center;
@@ -8139,7 +8152,7 @@ header#headerv3-light {
   }
 }
 footer {
-  background: url('../images/uploads/ft-bg.jpg') no-repeat;
+  background-color: #020d18;
   background-position: center;
   background-size: cover;
 }
