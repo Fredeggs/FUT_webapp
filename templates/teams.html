@@ -5,7 +5,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="hero-ct">
-					<h1>user created teams</h1>
+					<h1>search user created teams</h1>
 				</div>
 			</div>
 		</div>
@@ -16,18 +16,15 @@
 		<div class="row ipad-width2">
 			<div class="col-md-8 col-sm-12 col-xs-12">
 				<div class="topbar-filter">
-					<p>Found <span>1,608 movies</span> in total</p>
+					<p>Found <span>1,608 teams</span> in total</p>
 					<label>Sort by:</label>
 					<select>
-						<option value="popularity">Popularity Descending</option>
-						<option value="popularity">Popularity Ascending</option>
-						<option value="rating">Rating Descending</option>
-						<option value="rating">Rating Ascending</option>
-						<option value="date">Release date Descending</option>
-						<option value="date">Release date Ascending</option>
+						<option value="likes">Likes</option>
+						<option value="comments">Comments</option>
+						<option selected value="rating">Average Rating</option>
+						<option value="newest">Newest</option>
+						<option value="oldest">Oldest</option>
 					</select>
-					<a href="movielist.html" class="list"><i class="ion-ios-list-outline active"></i></a>
-					<a  href="moviegrid.html" class="grid"><i class="ion-grid"></i></a>
 				</div>
 				<div class="movie-item-style-2">
 					<img src="static/images/uploads/mv1.jpg" alt="">
@@ -101,57 +98,54 @@
 			<div class="col-md-4 col-sm-12 col-xs-12">
 				<div class="sidebar">
 					<div class="searh-form">
+						<h4 class="sb-title">Create Your Own team!</h4>
+						<form class="form-style-1" action="/">
+							<div class="row">
+								<div class="col-md-12 ">
+									<input class="submit" type="submit" style="background-color: #94D1BE; color: black;" value="Create Team">
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="searh-form">
 						<h4 class="sb-title">Filter Teams</h4>
 						<form class="form-style-1" action="#">
 							<div class="row">
 								<div class="col-md-12 form-it">
-									<label>Movie name</label>
-									<input type="text" placeholder="Enter keywords">
-								</div>
-								<div class="col-md-12 form-it">
-									<label>Genres & Subgenres</label>
-									<div class="group-ip">
-										<select
-											name="skills" multiple="" class="ui fluid dropdown">
-											<option value="">Enter to filter genres</option>
-											<option value="Action1">Action 1</option>
-					                        <option value="Action2">Action 2</option>
-					                        <option value="Action3">Action 3</option>
-					                        <option value="Action4">Action 4</option>
-					                        <option value="Action5">Action 5</option>
-										</select>
-									</div>
-									
-								</div>
-								<div class="col-md-12 form-it">
-									<label>Rating Range</label>
-									
-									 <select>
-										<option value="range">-- Select the rating range below --</option>
-										<option value="saab">-- Select the rating range below --</option>
-										<option value="saab">-- Select the rating range below --</option>
-										<option value="saab">-- Select the rating range below --</option>
+									<label>Formation</label>
+									<select>
+										<option value="1">3-1-4-2</option>
+										<option value="2">3-4-1-2</option>
+										<option value="3">3-4-2-1</option>
+										<option value="4">3-4-3</option>
+										<option value="5">3-5-2</option>
+										<option value="6">4-1-2-1-2</option>
+										<option value="7">4-1-3-2</option>
+										<option value="8">4-1-4-1</option>
+										<option value="9">4-2-2-2</option>
+										<option value="10">4-2-3-1</option>
+										<option value="11">4-2-4</option>
+										<option value="12">4-3-1-2</option>
+										<option value="13">4-3-2-1</option>
+										<option value="14">4-3-3</option>
+										<option value="15">4-4-1-1</option>
+										<option value="16">4-4-2</option>
+										<option value="17">4-5-1</option>
+										<option value="18">5-2-1-2</option>
+										<option value="19">5-2-2-1</option>
+										<option value="20">5-3-2</option>
+										<option value="21">5-4-1</option>
 									</select>
-									
 								</div>
 								<div class="col-md-12 form-it">
-									<label>Release Year</label>
+									<label>Price</label>
 									<div class="row">
 										<div class="col-md-6">
-											<select>
-												<option value="range">From</option>
-												<option value="number">10</option>
-												<option value="number">20</option>
-												<option value="number">30</option>
-											</select>
+											<input type="number" value=0>
 										</div>
 										<div class="col-md-6">
-											<select>
-												<option value="range">To</option>
-												<option value="number">20</option>
-												<option value="number">30</option>
-												<option value="number">40</option>
-											</select>
+											<input type="number" placeholder="Max Price">
+										</div>
 										</div>
 									</div>
 								</div>
@@ -160,22 +154,6 @@
 								</div>
 							</div>
 						</form>
-					</div>
-					<div class="ads">
-						<img src="static/images/uploads/ads1.png" alt="">
-					</div>
-					<div class="sb-facebook sb-it">
-						<h4 class="sb-title">Find us on Facebook</h4>
-						<iframe src="" data-src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fhaintheme%2F%3Ffref%3Dts&tabs=timeline&width=340&height=315px&small_header=true&adapt_container_width=false&hide_cover=false&show_facepile=true&appId"  height="315" style="width:100%;border:none;overflow:hidden" ></iframe>
-					</div>
-					<div class="sb-twitter sb-it">
-						<h4 class="sb-title">Tweet to us</h4>
-						<div class="slick-tw">
-							<div class="tweet item" id="599202861751410688">
-							</div>
-							<div class="tweet item" id="297462728598122498">
-							</div>
-						</div>							
 					</div>
 				</div>
 			</div>

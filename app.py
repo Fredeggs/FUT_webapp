@@ -151,7 +151,9 @@ def homepage():
 @app.route("/teams")
 def teams_page():
     if g.user:
-        return render_template("home1.html")
+        return render_template("teams.html")
+    else:
+        return redirect("/")
 
 
 @app.route("/api/teams")
@@ -221,6 +223,28 @@ def get_teams():
             # should return a list of the Teams ordered by date (newest / most recent)
             print("sorted by date (newest)")
             return jsonify()
+
+
+@app.route("/players")
+def players_page():
+    """Display players page."""
+    if g.user:
+
+        # following_ids = [user.id for user in g.user.following]
+        # messages = (
+        #     Message.query.filter(
+        #         (Message.user_id.in_(following_ids)) | (Message.user_id == g.user.id)
+        #     )
+        #     .order_by(Message.timestamp.desc())
+        #     .limit(100)
+        #     .all()
+        # )
+
+        # likes = Likes.query.filter(Likes.user_id == g.user.id).all()
+        # like_ids = [like.message_id for like in likes]
+
+        # return render_template("home.html", messages=messages, likes=like_ids)
+        return render_template("players.html")
 
 
 @app.route("/api/players")
