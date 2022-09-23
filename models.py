@@ -1,4 +1,5 @@
 from unicodedata import name
+from datetime import datetime
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 
@@ -136,6 +137,12 @@ class Team(db.Model):
     price = db.Column(
         db.Integer,
         nullable=False,
+    )
+
+    timestamp = db.Column(
+        db.DateTime,
+        nullable=False,
+        default=datetime.utcnow(),
     )
 
     formation_id = db.Column(

@@ -191,7 +191,8 @@ def get_teams():
             pass
 
         try:
-            queries.append(Team.formation_id == int(formation))
+            if int(formation) != 0:
+                queries.append(Team.formation_id == int(formation))
         except:
             pass
 
@@ -214,9 +215,9 @@ def get_teams():
             print("sorted by comments")
             return jsonify()
 
-        if sort == "ratings":
+        if sort == "rating":
             # should return a list of the Teams in order of ratings (highest to lowest)
-            print("sorted by ratings")
+            print("sorted by rating")
             return jsonify()
 
         if sort == "newest":

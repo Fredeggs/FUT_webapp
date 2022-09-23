@@ -18,12 +18,11 @@
 				<div class="topbar-filter">
 					<p>Found <span>1,608 teams</span> in total</p>
 					<label>Sort by:</label>
-					<select>
+					<select id="sort-by">
 						<option value="likes">Likes</option>
 						<option value="comments">Comments</option>
 						<option selected value="rating">Average Rating</option>
 						<option value="newest">Newest</option>
-						<option value="oldest">Oldest</option>
 					</select>
 				</div>
 				<div class="movie-item-style-2">
@@ -113,7 +112,8 @@
 							<div class="row">
 								<div class="col-md-12 form-it">
 									<label>Formation</label>
-									<select>
+									<select id="formation">
+										<option value="0" selected>Any</option>
 										<option value="1">3-1-4-2</option>
 										<option value="2">3-4-1-2</option>
 										<option value="3">3-4-2-1</option>
@@ -137,20 +137,29 @@
 										<option value="21">5-4-1</option>
 									</select>
 								</div>
-								<div class="col-md-12 form-it">
-									<label>Price</label>
-									<div class="row">
-										<div class="col-md-6">
-											<input type="number" value=0>
-										</div>
-										<div class="col-md-6">
-											<input type="number" placeholder="Max Price">
-										</div>
+									<div class="col-md-12 form-it">
+										<label>Price</label>
+										<div class="row">
+											<div class="col-md-6">
+												<input id="price-min" type="number" value=0>
+											</div>
+											<div class="col-md-6">
+												<input id="price-max" type="number" placeholder="Max Price">
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="col-md-12 ">
-									<input class="submit" type="submit" value="submit">
+									<div class="col-md-12 form-it">
+										<label>Rating</label>
+										<div class="row">
+											<div class="col-md-6">
+												<input id="rating-min" type="number" value=0>
+											</div>
+											<div class="col-md-6">
+												<input id="rating-max" type="number" placeholder="Max Rating">
+											</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</form>
@@ -160,4 +169,8 @@
 		</div>
 	</div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="static/js/teams.js"></script>
 {% endblock %}
