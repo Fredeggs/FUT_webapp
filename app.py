@@ -1,14 +1,18 @@
+from crypt import methods
 import os
 from tokenize import String
-
+from unicodedata import name
+from secrets import API_SECRET_KEY
 from flask import Flask, render_template, request, flash, redirect, session, g, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
+import requests
+import json
 
 from forms import UserAddForm, LoginForm
-from models import Team, db, connect_db, User, Likes
+from models import Formation, Player, Team, db, connect_db, User, Likes
 
 CURR_USER_KEY = "curr_user"
 
@@ -28,6 +32,8 @@ app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
 # toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
+API_BASE_URL = "https://futdb.app/api/players/search"
+API_HEADERS = {"X-AUTH-TOKEN": API_SECRET_KEY}
 
 ##############################################################################
 # User signup/login/logout
@@ -156,7 +162,7 @@ def teams_page():
         return redirect("/")
 
 
-@app.route("/api/teams")
+@app.route("/api/teams", methods=["GET"])
 def get_teams():
     """Make a request to the Teams model to filter through Teams"""
     if g.user:
@@ -191,38 +197,72 @@ def get_teams():
             pass
 
         try:
-            queries.append(Team.formation_id == int(formation))
+            if int(formation) != 0:
+                queries.append(Team.formation_id == int(formation))
         except:
             pass
 
         if sort == "likes":
             # should return a list of the Teams in order of the # of likes
             print("sorted by likes")
-            team_likes = (
-                db.session.query(Team.name, func.count(Team.likes).label("total_likes"))
+            teams = (
+                db.session.query(
+                    Team,
+                    func.count(Team.likes).label("total_likes"),
+                )
                 .join(Likes)
                 .filter(*queries)
                 .group_by(Team)
                 .order_by("total_likes desc")
                 .all()
             )
-            print(team_likes)
-            return jsonify()
+            json_list = [
+                {"team": team[0].serialize(), "likes": team[1]} for team in teams
+            ]
+            return jsonify(json_list)
 
         if sort == "comments":
             # should return a list of the Teams in order of the # of comments
             print("sorted by comments")
             return jsonify()
 
-        if sort == "ratings":
+        if sort == "rating":
             # should return a list of the Teams in order of ratings (highest to lowest)
-            print("sorted by ratings")
-            return jsonify()
+            print("sorted by rating")
+            teams = (
+                db.session.query(
+                    Team,
+                    func.count(Team.likes).label("total_likes"),
+                )
+                .join(Likes)
+                .filter(*queries)
+                .group_by(Team)
+                .order_by(Team.rating.desc())
+                .all()
+            )
+            json_list = [
+                {"team": team[0].serialize(), "likes": team[1]} for team in teams
+            ]
+            return jsonify(json_list)
 
         if sort == "newest":
             # should return a list of the Teams ordered by date (newest / most recent)
             print("sorted by date (newest)")
-            return jsonify()
+            teams = (
+                db.session.query(
+                    Team,
+                    func.count(Team.likes).label("total_likes"),
+                )
+                .join(Likes)
+                .filter(*queries)
+                .group_by(Team)
+                .order_by(Team.timestamp.desc())
+                .all()
+            )
+            json_list = [
+                {"team": team[0].serialize(), "likes": team[1]} for team in teams
+            ]
+            return jsonify(json_list)
 
 
 @app.route("/players")
@@ -247,10 +287,21 @@ def players_page():
         return render_template("players.html")
 
 
-@app.route("/api/players")
+@app.route("/api/players", methods=["GET"])
 def get_players():
     """Retrieve data from the Players model for the homepage"""
     if g.user:
+        name = request.args.get("name")
+        data = {
+            "name": name,
+        }
+
+        response = requests.post(API_BASE_URL, headers=API_HEADERS, json=data).text
+        resp_data = json.loads(response)
+        print(resp_data.items)
+
+        # players = [item.name for item in resp_data.items]
+        # print(players)
 
         # following_ids = [user.id for user in g.user.following]
         # messages = (

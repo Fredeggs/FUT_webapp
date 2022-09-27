@@ -155,7 +155,7 @@ players = [
     Player(
         id=4,
         name="Martin Ødegaard",
-        nation_id=36,
+        nation_id=35,
         club_id=1,
         rating=82,
         pace=77,
@@ -246,7 +246,7 @@ players = [
     Player(
         id=16,
         name="Cédric",
-        nation_id=38,
+        nation_id=37,
         club_id=1,
         rating=76,
         pace=76,
@@ -272,7 +272,7 @@ players = [
     Player(
         id=25,
         name="Nuno Tavares",
-        nation_id=38,
+        nation_id=37,
         club_id=1,
         rating=70,
         pace=86,
@@ -288,8 +288,22 @@ db.session.add_all(players)
 db.session.commit()
 
 teams = [
-    Team(name="test Team 1", formation_id=1, user_id=1, price=123456789, rating=78),
-    Team(name="test Team 2", formation_id=2, user_id=1, price=12, rating=34),
+    Team(
+        name="test Team 1",
+        formation_id=1,
+        user_id=1,
+        timestamp="2016-12-06 23:13:29.694274",
+        price=123456789,
+        rating=78,
+    ),
+    Team(
+        name="test Team 2",
+        formation_id=2,
+        user_id=1,
+        timestamp="2017-01-21 11:04:53.522807",
+        price=12,
+        rating=34,
+    ),
 ]
 
 db.session.add_all(teams)

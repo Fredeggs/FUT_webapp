@@ -5,7 +5,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="hero-ct">
-					<h1> Search player database</h1>
+					<h1> search player database</h1>
 				</div>
 			</div>
 		</div>
@@ -255,11 +255,11 @@
 				<div class="sidebar">
 					<div class="searh-form">
 						<h4 class="sb-title">Search for players</h4>
-						<form class="form-style-1" action="#">
+						<form id="search" class="form-style-1">
 							<div class="row">
 								<div class="col-md-12 form-it">
 									<label>Player name</label>
-									<input type="text" placeholder="Enter keywords">
+									<input id="search-name" type="text" placeholder="Enter keywords">
 								</div>
 								<div class="col-md-12 ">
 									<input class="submit" type="submit" value="submit">
@@ -275,4 +275,8 @@
 		</div>
 	</div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="static/js/players.js"></script>
 {% endblock %}

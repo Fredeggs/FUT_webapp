@@ -1,4 +1,5 @@
 from unicodedata import name
+from datetime import datetime
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 
@@ -138,6 +139,12 @@ class Team(db.Model):
         nullable=False,
     )
 
+    timestamp = db.Column(
+        db.DateTime,
+        nullable=False,
+        default=datetime.utcnow(),
+    )
+
     formation_id = db.Column(
         db.Integer,
         db.ForeignKey("formations.id"),
@@ -152,6 +159,22 @@ class Team(db.Model):
     )
     user = db.relationship("User")
     players = db.relationship("Player", secondary="roster_assignments")
+
+    def serialize(self):
+        """Turns a db model object into a dict in order to jsonify it and return json to the requestor"""
+        return {
+            "id": self.id,
+            "name": self.name,
+            "rating": self.rating,
+            "price": self.price,
+            "timestamp": self.timestamp,
+            "formation": self.formation.name,
+            "user": self.user.username,
+            "players": {
+                num: self.players[num].serialize()
+                for num in range(0, len(self.players))
+            },
+        }
 
 
 class Player(db.Model):
@@ -188,6 +211,22 @@ class Player(db.Model):
     defending = db.Column(db.Integer)
 
     physicality = db.Column(db.Integer)
+
+    def serialize(self):
+        """Turns a db model object into a dict in order to jsonify it and return json to the requestor"""
+        return {
+            "id": self.id,
+            "name": self.name,
+            "nation": self.nation.name,
+            "club": self.club.name,
+            "rating": self.rating,
+            "pace": self.pace,
+            "shooting": self.shooting,
+            "passing": self.passing,
+            "dribbling": self.dribbling,
+            "defending": self.defending,
+            "physicality": self.physicality,
+        }
 
 
 class Nation(db.Model):
