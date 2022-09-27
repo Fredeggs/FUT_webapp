@@ -155,7 +155,7 @@ players = [
     Player(
         id=4,
         name="Martin Ødegaard",
-        nation_id=36,
+        nation_id=35,
         club_id=1,
         rating=82,
         pace=77,
@@ -246,7 +246,7 @@ players = [
     Player(
         id=16,
         name="Cédric",
-        nation_id=38,
+        nation_id=37,
         club_id=1,
         rating=76,
         pace=76,
@@ -272,7 +272,7 @@ players = [
     Player(
         id=25,
         name="Nuno Tavares",
-        nation_id=38,
+        nation_id=37,
         club_id=1,
         rating=70,
         pace=86,

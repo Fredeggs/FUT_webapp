@@ -160,6 +160,22 @@ class Team(db.Model):
     user = db.relationship("User")
     players = db.relationship("Player", secondary="roster_assignments")
 
+    def serialize(self):
+        """Turns a db model object into a dict in order to jsonify it and return json to the requestor"""
+        return {
+            "id": self.id,
+            "name": self.name,
+            "rating": self.rating,
+            "price": self.price,
+            "timestamp": self.timestamp,
+            "formation": self.formation.name,
+            "user": self.user.username,
+            "players": {
+                num: self.players[num].serialize()
+                for num in range(0, len(self.players))
+            },
+        }
+
 
 class Player(db.Model):
     """A Player to be used in a Team. Data is obtained from FUT_db."""
@@ -195,6 +211,22 @@ class Player(db.Model):
     defending = db.Column(db.Integer)
 
     physicality = db.Column(db.Integer)
+
+    def serialize(self):
+        """Turns a db model object into a dict in order to jsonify it and return json to the requestor"""
+        return {
+            "id": self.id,
+            "name": self.name,
+            "nation": self.nation.name,
+            "club": self.club.name,
+            "rating": self.rating,
+            "pace": self.pace,
+            "shooting": self.shooting,
+            "passing": self.passing,
+            "dribbling": self.dribbling,
+            "defending": self.defending,
+            "physicality": self.physicality,
+        }
 
 
 class Nation(db.Model):
