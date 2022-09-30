@@ -297,11 +297,12 @@ def get_players():
         }
 
         response = requests.post(API_BASE_URL, headers=API_HEADERS, json=data).text
-        resp_data = json.loads(response)
-        print(resp_data.items)
+        resp_json = json.loads(response)
+        items = data.get("items")
+        # print(resp_data.items)
 
-        # players = [item.name for item in resp_data.items]
-        # print(players)
+        players = [item.name for item in items]
+        print(players)
 
         # following_ids = [user.id for user in g.user.following]
         # messages = (
