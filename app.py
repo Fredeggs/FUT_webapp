@@ -302,12 +302,9 @@ def get_players():
         response = requests.post(url=API_BASE_URL, headers=API_HEADERS, json=data).text
         resp_json = json.loads(response)
         items = resp_json.get("items")
-        print(items)
+        print(resp_json)
         names = [{"name": item.get("name")} for item in items]
         # [{"team": team[0].serialize(), "likes": team[1]} for team in teams]
-
-        # players = [item.name for item in resp_data.items]
-        # print(players)
 
         # following_ids = [user.id for user in g.user.following]
         # messages = (
