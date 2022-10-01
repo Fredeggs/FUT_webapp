@@ -33,7 +33,9 @@ app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
 
 connect_db(app)
 API_BASE_URL = "https://futdb.app/api/players/search"
-API_HEADERS = {"X-AUTH-TOKEN": API_SECRET_KEY}
+API_HEADERS = {
+    "X-AUTH-TOKEN": API_SECRET_KEY
+}
 
 ##############################################################################
 # User signup/login/logout
@@ -293,10 +295,11 @@ def get_players():
     if g.user:
         name = request.args.get("name")
         data = {
-            "name": name,
+            "name": name
         }
 
-        response = requests.post(API_BASE_URL, headers=API_HEADERS, json=data).text
+        print(API_HEADERS)
+        response = requests.post(url=API_BASE_URL, headers=API_HEADERS, json=data).text
         resp_json = json.loads(response)
         items = resp_json.get("items")
         print(items)
