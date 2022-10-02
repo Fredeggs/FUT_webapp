@@ -1,3 +1,4 @@
+from email.mime import image
 from unicodedata import name
 from datetime import datetime
 from flask_bcrypt import Bcrypt
@@ -190,6 +191,11 @@ class Player(db.Model):
     name = db.Column(
         db.String(50),
         nullable=False,
+    )
+
+    image = db.Column(
+        db.Text,
+        default="/static/images/warbler-hero.jpg"
     )
 
     nation_id = db.Column(db.Integer, db.ForeignKey("nations.id"), nullable=False)

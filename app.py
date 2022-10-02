@@ -12,7 +12,7 @@ import requests
 import json
 
 from forms import UserAddForm, LoginForm
-from models import Formation, Player, Team, db, connect_db, User, Likes
+from models import Club, Formation, Nation, Player, Team, db, connect_db, User, Likes
 
 CURR_USER_KEY = "curr_user"
 
@@ -32,7 +32,7 @@ app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
 # toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
-API_BASE_URL = "https://futdb.app/api/players/search"
+API_BASE_URL = "https://futdb.app/api/"
 API_HEADERS = {
     "X-AUTH-TOKEN": API_SECRET_KEY
 }
@@ -111,7 +111,6 @@ def login():
     """Handle user login."""
 
     loginform = LoginForm()
-    signupform = UserAddForm()
 
     if loginform.validate_on_submit():
         user = User.authenticate(loginform.username.data, loginform.password.data)
@@ -297,27 +296,62 @@ def get_players():
         data = {
             "name": name
         }
+        image_resp = requests.get(url=f"{API_BASE_URL}players/1/image", headers=API_HEADERS)
+        print(dir(image_resp))
+        print(image_resp.text)
+        response = requests.post(url=API_BASE_URL + "players/search", headers=API_HEADERS, json=data).text
+        items = json.loads(response).get("items")
+        players = [
+            {
+                "id": item.get("id"),
+                "name": item.get("name"),
+                "nation": item.get("nation"),
+                "club": item.get("club"),
+                "rating": item.get("rating"),
+                "pace": item.get("pace"),
+                "shooting": item.get("shooting"),
+                "dribbling": item.get("dribbling"),
+                "passing": item.get("passing"),
+                "defending": item.get("defending"),
+                "physicality": item.get("physicality"),
+            } for item in items
+        ]
 
-        print(API_HEADERS)
-        response = requests.post(url=API_BASE_URL, headers=API_HEADERS, json=data).text
-        resp_json = json.loads(response)
-        items = resp_json.get("items")
-        print(resp_json)
-        names = [{"name": item.get("name")} for item in items]
-        # [{"team": team[0].serialize(), "likes": team[1]} for team in teams]
+        new_nations = []
+        new_clubs = []
+        new_players = []
 
-        # following_ids = [user.id for user in g.user.following]
-        # messages = (
-        #     Message.query.filter(
-        #         (Message.user_id.in_(following_ids)) | (Message.user_id == g.user.id)
-        #     )
-        #     .order_by(Message.timestamp.desc())
-        #     .limit(100)
-        #     .all()
-        # )
+        for item in items:
+            if db.session.query(Player).filter(Player.id == item.get("id")).first() == None:
+                if db.session.query(Nation).filter(Nation.id == item.get("nation")).first() == None:
+                    nation_resp = requests.get(url=f"{API_BASE_URL}nations/{item.get('nation')}", headers=API_HEADERS).text
+                    nation_name = json.loads(nation_resp).get("nation").get("name")
+                    new_nation = Nation(id=item.get("nation"), name=nation_name)
+                    new_nations.append(new_nation)
+                if db.session.query(Club).filter(Club.id == item.get("club")).first() == None:
+                    club_resp = requests.get(url=f"{API_BASE_URL}clubs/{item.get('club')}", headers=API_HEADERS).text
+                    club_name = json.loads(club_resp).get("club").get("name")
+                    new_club = Club(id=item.get("club"), name=club_name)
+                    new_clubs.append(new_club)
+                new_player = Player(
+                    id=item.get("id"),
+                    name=item.get("name"),
+                    nation_id=item.get("nation"),
+                    club_id=item.get("club"),
+                    rating=item.get("rating"),
+                    pace=item.get("pace"),
+                    shooting=item.get("shooting"),
+                    passing=item.get("passing"),
+                    dribbling=item.get("dribbling"),
+                    defending=item.get("defending"),
+                    physicality=item.get("physicality")
+                )
+                new_players.append(new_player)
 
-        # likes = Likes.query.filter(Likes.user_id == g.user.id).all()
-        # like_ids = [like.message_id for like in likes]
+                db.session.add_all(new_nations)
+                db.session.add_all(new_clubs)
+                db.session.commit()
+                db.session.add_all(new_players)
+                db.session.commit()
 
-        # return render_template("home.html", messages=messages, likes=like_ids)
-        return jsonify(names)
+        return jsonify(players)
