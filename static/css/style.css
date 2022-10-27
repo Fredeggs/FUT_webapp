@@ -31,6 +31,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 /*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */
+
 @media print {
   *,
   *:before,
@@ -4229,11 +4230,11 @@ ul {
 .cate .orange {
   background-color: #ec5a1a;
 }
-.movie_list .movie-item-style-2 img,
+/* .movie_list .movie-item-style-2 img,
 .movie_single .movie-item-style-2 img,
 .userfav_list .movie-item-style-2 img {
   width: 30%;
-}
+} */
 @media (max-width: 767px) {
   .movie_list .movie-item-style-2 img,
   .movie_single .movie-item-style-2 img,
@@ -4723,8 +4724,12 @@ ul {
 .title-hd-sm a i {
   margin-left: 5px;
 }
+#player-overview {
+  margin-top: 55px;
+}
 .tabs {
   margin-bottom: 60px;
+  margin-top: 170px;
   overflow: hidden;
 }
 .tabs ul.tab-links,
@@ -4838,9 +4843,6 @@ ul {
 }
 .tabs .tab-content {
   padding-left: 15px;
-}
-.tabs .tab-content .active {
-  margin-left: -15px;
 }
 .trailers {
   background-color: #06121e;
@@ -5666,7 +5668,7 @@ ul {
   height: 598px;
 }
 .hero3 {
-  background: url('../images/uploads/celeb-hero-single.jpg') no-repeat;
+  background-color: #020d18;
   height: 538px;
 }
 .common-hero {
@@ -5808,7 +5810,7 @@ ul {
 .user-information {
   border: 3px solid #0f2133;
   margin-right: 30px;
-  margin-top: -200px;
+  margin-top: -100px;
   background-color: #020d18;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -5832,6 +5834,8 @@ ul {
 }
 .user-information .user-img img {
   margin-bottom: 30px;
+  height: 200px;
+  border-radius: 50%;
 }
 .user-information ul {
   padding: 0 25px;
@@ -8295,4 +8299,49 @@ footer.full-width-ft .ft-copyright {
   color: #8c9296;
   font-family: 'Dosis', sans-serif;
   font-weight: 700;
+}
+
+.nav-photo {
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 0px;
+}
+
+#nav-user {
+  position: relative;
+  display: block;
+  padding: 10px 0px;
+}
+
+.team-thumbnail{
+  display: flex;
+  background-color: #021818;
+  justify-content: space-around;
+  flex-direction: column;
+  width: 1000px;
+  height: 300px;
+  vertical-align: middle;
+  border-radius: 5px;
+  border-color: white;
+  border-style: solid;
+  border-width: 5px;
+}
+
+.player-row {
+  padding-left: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.team-thumbnail img {
+  height: 50px;
+  width: 15%;
+  border-radius: 10%;
+  background-color: gold;
+}
+
+#team-info {
+  margin-left: 3%;
 }

@@ -1,4 +1,5 @@
 from crypt import methods
+from email.mime import image
 import os
 from tokenize import String
 from unicodedata import name
@@ -6,7 +7,7 @@ from secrets import API_SECRET_KEY
 from flask import Flask, render_template, request, flash, redirect, session, g, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import func
+from sqlalchemy import func, or_
 from sqlalchemy.exc import IntegrityError
 import requests
 import json
@@ -34,7 +35,9 @@ app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
 connect_db(app)
 API_BASE_URL = "https://futdb.app/api/"
 API_HEADERS = {
-    "X-AUTH-TOKEN": API_SECRET_KEY
+    "X-AUTH-TOKEN": API_SECRET_KEY,
+    "accept": "image/png"
+
 }
 
 ##############################################################################
@@ -163,6 +166,14 @@ def teams_page():
         return redirect("/")
 
 
+@app.route("/create-team")
+def create_team():
+    if g.user:
+        return render_template("create-team.html")
+    else:
+        return redirect("/")
+
+
 @app.route("/api/teams", methods=["GET"])
 def get_teams():
     """Make a request to the Teams model to filter through Teams"""
@@ -271,20 +282,6 @@ def players_page():
     """Display players page."""
     if g.user:
 
-        # following_ids = [user.id for user in g.user.following]
-        # messages = (
-        #     Message.query.filter(
-        #         (Message.user_id.in_(following_ids)) | (Message.user_id == g.user.id)
-        #     )
-        #     .order_by(Message.timestamp.desc())
-        #     .limit(100)
-        #     .all()
-        # )
-
-        # likes = Likes.query.filter(Likes.user_id == g.user.id).all()
-        # like_ids = [like.message_id for like in likes]
-
-        # return render_template("home.html", messages=messages, likes=like_ids)
         return render_template("players.html")
 
 
@@ -296,62 +293,84 @@ def get_players():
         data = {
             "name": name
         }
-        image_resp = requests.get(url=f"{API_BASE_URL}players/1/image", headers=API_HEADERS)
-        print(dir(image_resp))
-        print(image_resp.text)
+
+        image_resp = requests.get(url=f"{API_BASE_URL}players/2/image", headers=API_HEADERS)
+
+        fp = open("static/images/players/2.png", "wb")
+        fp.write(image_resp.content) #player.image is the binary data for the PNG returned by the api
+        fp.close()
+        print(fp.name)
+
+        # Get raw player data from api
         response = requests.post(url=API_BASE_URL + "players/search", headers=API_HEADERS, json=data).text
-        items = json.loads(response).get("items")
-        players = [
-            {
-                "id": item.get("id"),
-                "name": item.get("name"),
-                "nation": item.get("nation"),
-                "club": item.get("club"),
-                "rating": item.get("rating"),
-                "pace": item.get("pace"),
-                "shooting": item.get("shooting"),
-                "dribbling": item.get("dribbling"),
-                "passing": item.get("passing"),
-                "defending": item.get("defending"),
-                "physicality": item.get("physicality"),
-            } for item in items
-        ]
+        player_data = json.loads(response).get("items")
 
-        new_nations = []
-        new_clubs = []
         new_players = []
+        player_ids = []
 
-        for item in items:
-            if db.session.query(Player).filter(Player.id == item.get("id")).first() == None:
-                if db.session.query(Nation).filter(Nation.id == item.get("nation")).first() == None:
-                    nation_resp = requests.get(url=f"{API_BASE_URL}nations/{item.get('nation')}", headers=API_HEADERS).text
+        for player in player_data:
+            player_ids.append(Player.id == int(player.get("id")))
+            print(int(player.get("id")))
+            # If a searched player does not exist in the database, add them to the database
+            if db.session.query(Player).filter(Player.id == player.get("id")).first() == None:
+                # If new player's Nation does not exist in the database, add it
+                if db.session.query(Nation).filter(Nation.id == player.get("nation")).first() == None:
+                    nation_resp = requests.get(url=f"{API_BASE_URL}nations/{player.get('nation')}", headers=API_HEADERS).text
                     nation_name = json.loads(nation_resp).get("nation").get("name")
-                    new_nation = Nation(id=item.get("nation"), name=nation_name)
-                    new_nations.append(new_nation)
-                if db.session.query(Club).filter(Club.id == item.get("club")).first() == None:
-                    club_resp = requests.get(url=f"{API_BASE_URL}clubs/{item.get('club')}", headers=API_HEADERS).text
+                    new_nation = Nation(id=player.get("nation"), name=nation_name)
+                    db.session.add(new_nation)
+                    db.session.commit()
+                # If new player's Club does not exist in the database, add it
+                if db.session.query(Club).filter(Club.id == player.get("club")).first() == None:
+                    club_resp = requests.get(url=f"{API_BASE_URL}clubs/{player.get('club')}", headers=API_HEADERS).text
                     club_name = json.loads(club_resp).get("club").get("name")
-                    new_club = Club(id=item.get("club"), name=club_name)
-                    new_clubs.append(new_club)
+                    new_club = Club(id=player.get("club"), name=club_name)
+                    db.session.add(new_club)
+                    db.session.commit()
+
+                # Create the new player's image file
+                image_data = requests.get(url=f"{API_BASE_URL}players/{player.get('id')}/image", headers=API_HEADERS).content
+                player_image = open(f"static/images/players/{player.get('id')}.png", "wb")
+                player_image.write(image_data)
+                player_image.close()
+
                 new_player = Player(
-                    id=item.get("id"),
-                    name=item.get("name"),
-                    nation_id=item.get("nation"),
-                    club_id=item.get("club"),
-                    rating=item.get("rating"),
-                    pace=item.get("pace"),
-                    shooting=item.get("shooting"),
-                    passing=item.get("passing"),
-                    dribbling=item.get("dribbling"),
-                    defending=item.get("defending"),
-                    physicality=item.get("physicality")
+                    id=player.get("id"),
+                    name=player.get("name"),
+                    nation_id=player.get("nation"),
+                    club_id=player.get("club"),
+                    rating=player.get("rating"),
+                    pace=player.get("pace"),
+                    shooting=player.get("shooting"),
+                    passing=player.get("passing"),
+                    dribbling=player.get("dribbling"),
+                    defending=player.get("defending"),
+                    physicality=player.get("physicality"),
+                    image = player_image.name
                 )
                 new_players.append(new_player)
+        db.session.add_all(new_players)
+        db.session.commit()
 
-                db.session.add_all(new_nations)
-                db.session.add_all(new_clubs)
-                db.session.commit()
-                db.session.add_all(new_players)
-                db.session.commit()
+        players_list = db.session.query(Player).filter(or_(*player_ids)).all()
 
-        return jsonify(players)
+        return jsonify([player.serialize() for player in players_list])
+
+@app.route("/player/<id>", methods=["GET"])
+def show_player(id):
+    """Display information for a specific Player id"""
+
+    if g.user:
+        player = db.session.query(Player).get_or_404(id)
+        
+        return render_template("player.html", player=player)
+
+@app.route("/users/<id>", methods=["GET"])
+def display_profile(id):
+    """Display information for a specific User"""
+
+    if g.user:
+        user = db.session.query(User).get_or_404(id)
+        
+        return render_template("profile.html", user=user)
+

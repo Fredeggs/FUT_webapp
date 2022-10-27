@@ -23,15 +23,15 @@
 	<meta name="format-detection" content="telephone-no">
 
 	<!-- CSS files -->
-	<link rel="stylesheet" href="static/css/plugins.css">
-	<link rel="stylesheet" href="static/css/style.css">
+	<link rel="stylesheet" href="../static/css/plugins.css">
+	<link rel="stylesheet" href="../static/css/style.css">
 	
 
 </head>
 <body>
 <!--preloading-->
 <div id="preloader">
-    <img class="logo" src="static/images/uploads/Low Resolution Logo - Transparent Background.png" alt="" width="119" height="58">
+    <img class="logo" src="../static/images/uploads/Low Resolution Logo - Transparent Background.png" alt="" width="119" height="58">
     <div id="status">
         <span></span>
         <span></span>
@@ -125,7 +125,7 @@
 							<span></span>
 						</div>
 				    </div>
-				    <a href="/"><img class="logo" src="static/images/uploads/Low Resolution Logo - Transparent Background.png" alt="" width="119" height="58"></a>
+				    <a href="/"><img class="logo" src="../static/images/uploads/Low Resolution Logo - Transparent Background.png" alt="" width="119" height="58"></a>
 			    </div>
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
@@ -151,9 +151,10 @@
 						{% else %}
 						<li>
 							<a href="/users/{{ g.user.id }}">
-							  <img src="{{ g.user.image_url }}" alt="{{ g.user.username }}">
+							  <img class="nav-photo" src="..{{ g.user.image_url }}" alt="{{ g.user.username }}">
 							</a>
 						</li>
+						<li><a id="nav-user" href="/users/{{ g.user.id }}">{{ g.user.username }}</a></li>
 						<li><a href="/logout">Log out</a></li>
 						{% endif %}
 					</ul>
@@ -176,10 +177,7 @@
 	<div class="container">
 		<div class="flex-parent-ft">
 			<div class="flex-child-ft item1">
-				<a href="/"><img class="logo" src="static/images/uploads/Low Resolution Logo - Transparent Background.png" alt="" width="119" height="58"></a>
-				 <p>5th Avenue st, manhattan<br>
-				New York, NY 10001</p>
-				<p>Call us: <a href="#">(+01) 202 342 6789</a></p>
+				<a href="/"><img class="logo" src="../static/images/uploads/Low Resolution Logo - Transparent Background.png" alt="" width="119" height="58"></a>
 			</div>
 		</div>
 	</div>
@@ -196,10 +194,10 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://kit.fontawesome.com/803488e7e5.js" crossorigin="anonymous"></script>
-<script src="static/js/jquery.js"></script>
-<script src="static/js/plugins.js"></script>
-<script src="static/js/plugins2.js"></script>
-<script src="static/js/custom.js"></script>
+<script src="../static/js/jquery.js"></script>
+<script src="../static/js/plugins.js"></script>
+<script src="../static/js/plugins2.js"></script>
+<script src="../static/js/custom.js"></script>
 {% block scripts %}
 {% endblock %}
 </body>

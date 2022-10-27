@@ -1,3 +1,5 @@
+$(getTeams());
+
 $("#sort-by").change(getTeams);
 $("#price-min").change(getTeams);
 $("#price-max").change(getTeams);
@@ -23,16 +25,18 @@ async function getTeams() {
       formation: formation,
     },
   });
-  console.log(resp.data);
 
   $(".movie-item-style-2").remove();
   $("#pagination").remove();
 
   for (let i = 0; i < resp.data.length; i++) {
+    let FORMATION = resp.data[i].team.formation.replace(/-/g, "");
+    let playerNum = 0;
     $("#teams-list").append(
-      `<div id=${i} class='movie-item-style-2'>
-        <img src='static/images/uploads/mv1.jpg' alt=''>
-        <div class='mv-item-infor'>
+      `<div class='movie-item-style-2'>
+        <div id=${i} class="team-thumbnail">
+        </div>
+        <div id='team-info' class='mv-item-infor'>
           <h6><a href="#"> ${resp.data[i].team.name}</a></h6>
           <p class="rate">Team Rating: <span>${resp.data[i].team.rating}</span></p>
           <p class="run-time"> Formation: ${resp.data[i].team.formation}
@@ -43,10 +47,24 @@ async function getTeams() {
         </div>
       </div>`
     );
-    console.log(Object.keys(resp.data[i].team.players).length);
+    for (let j = FORMATION.length - 1; j >= 0; j--) {
+      $(`#${i}`).append(`<div id="${i}row${j}" class="player-row"></div>`);
+      let currRow = FORMATION.charAt(j);
+      for (let rowLen = 0; rowLen < parseInt(currRow); rowLen++) {
+        $(`#${i}row${j}`).append(
+          `<img src="${resp.data[i].team.players[playerNum].image}" alt="">`
+        );
+        playerNum++;
+      }
+    }
+    $(`#${i}`).append(`<div id="${i}gk" class="player-row"></div>`);
+    $(`#${i}gk`).append(
+      `<img src="${resp.data[i].team.players[playerNum].image}" alt="">`
+    );
+
     for (let k = 0; k < Object.keys(resp.data[i].team.players).length; k++) {
       $(`#players${i}`).append(
-        `<a href="#">${resp.data[i].team.players[k].name}, </a>`
+        `<a href="/player/${resp.data[i].team.players[k].id}">${resp.data[i].team.players[k].name}, </a>`
       );
     }
   }

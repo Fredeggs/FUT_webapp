@@ -452,7 +452,6 @@ $(function () {
   });
   //pop up for login form
   loginLink.on("click", function (event) {
-    console.log("poop");
     event.preventDefault();
     loginct.parents(overlay).addClass("openform");
     $(document).on("click", function (e) {

@@ -232,6 +232,7 @@ class Player(db.Model):
             "dribbling": self.dribbling,
             "defending": self.defending,
             "physicality": self.physicality,
+            "image": self.image
         }
 
 
