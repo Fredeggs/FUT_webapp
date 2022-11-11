@@ -165,6 +165,62 @@ def teams_page():
     else:
         return redirect("/")
 
+@app.route("/teams/<id>")
+def team_page(id):
+    if g.user:
+        team = db.session.query(Team).get_or_404(id)
+
+        total_rating = 0
+        for player in team.players:
+            total_rating += player.rating
+        avg_rating = int(total_rating/11)
+
+        total_pace = 0
+        for player in team.players:
+            total_pace += player.pace
+        avg_pace = int(total_pace/11)
+
+        total_shooting = 0
+        for player in team.players:
+            total_shooting += player.shooting
+        avg_shooting = int(total_shooting/11)
+
+        total_dribbling = 0
+        for player in team.players:
+            total_dribbling += player.dribbling
+        avg_dribbling = int(total_dribbling/11)
+
+        total_passing = 0
+        for player in team.players:
+            total_passing += player.passing
+        avg_passing = int(total_passing/11)
+
+        total_defending = 0
+        for player in team.players:
+            total_defending += player.defending
+        avg_defending = int(total_defending/11)
+
+        total_physicality = 0
+        for player in team.players:
+            total_physicality += player.physicality
+        avg_physicality = int(total_physicality/11)
+
+
+        return render_template("team.html", team=team, rating=avg_rating, pace=avg_pace, shooting=avg_shooting, dribbling=avg_dribbling, passing=avg_passing, defending=avg_defending, physicality=avg_physicality)
+    else:
+        return redirect("/")
+
+
+@app.route("/api/team", methods=["GET"])
+def get_team():
+    if g.user:
+        team_id = request.args.get("team_id")
+        team = db.session.query(Team).get_or_404(team_id)
+
+        return jsonify(team.serialize())
+    else:
+        return redirect("/")
+
 
 @app.route("/create-team")
 def create_team():

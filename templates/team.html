@@ -1,0 +1,50 @@
+{% extends 'base1.html' %}
+
+{% block content %}
+<div class="hero common-hero">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="hero-ct">
+					<h1>{{ team.name }}</h1>
+					<ul class="breadcumb">
+						<li class="active"> Created By: <a href="/users/{{ team.user.id }}">{{team.user.username}}</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- blog grid section-->
+<div class="page-single">
+	<div class="container">
+		<div class="row">
+			<div id="team-page-roster" class="col-md-9 col-sm-12 col-xs-12">   
+            </div>
+			<div class="col-md-3 col-sm-12 col-xs-12">
+				<div class="sidebar">
+					<div class="sb-cate sb-it">
+						<h4 class="sb-title">Team Stats</h4>
+						<ul>
+							<li><a>Average Overall Rating: {{ rating }}</a></li>
+							<li><a>Average Pace: {{ pace }}</a></li>
+							<li><a>Average Shooting: {{ shooting }}</a></li>
+							<li><a>Average Passing: {{ passing }}</a></li>
+							<li><a>Average Dribbling: {{ dribbling }}</a></li>
+							<li><a>Average Defending: {{ defending }}</a></li>
+							<li><a>Average Physicality: {{ physicality }}</a></li>
+						</ul>
+					</div>
+					<div class="ads">
+						<img src="../static/images/uploads/ads1.png" alt="">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="../static/js/team.js"></script>
+{% endblock %}

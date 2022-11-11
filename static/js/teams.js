@@ -37,7 +37,7 @@ async function getTeams() {
         <div id=${i} class="team-thumbnail">
         </div>
         <div id='team-info' class='mv-item-infor'>
-          <h6><a href="#"> ${resp.data[i].team.name}</a></h6>
+          <h6><a href="/teams/${resp.data[i].team.id}"> ${resp.data[i].team.name}</a></h6>
           <p class="rate">Team Rating: <span>${resp.data[i].team.rating}</span></p>
           <p class="run-time"> Formation: ${resp.data[i].team.formation}
           <p>Price: ${resp.data[i].team.price}</p>
