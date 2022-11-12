@@ -1,6 +1,6 @@
 const queryString = window.location.pathname;
 const teamID = parseInt(queryString.substring(7));
-console.log(teamID);
+console.log(window.location.href);
 
 $(getTeams());
 
@@ -11,7 +11,6 @@ async function getTeams() {
     },
   });
 
-  console.log(resp);
 
   let FORMATION = resp.data.formation.replace(/-/g, "");
   let playerNum = 0;
