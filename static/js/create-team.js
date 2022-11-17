@@ -1,33 +1,28 @@
 $(displayTeam());
 
-function displayTeam() {
+$('#formation').on('change', displayTeam);
 
-    let FORMATION = $("#formation").val()
-    console.log(FORMATION)
-    for (let j = FORMATION.length - 1; j >= 0; j--) {
-        $(".team-roster").append(`<div id="row${j}" class="player-row"></div>`);
-        let currRow = FORMATION.charAt(j);
+function displayTeam() {
+    $(".team-roster").empty();
+    let FORMATION = $("#formation").val();
+    let playerNum = 0;
+
+    for (let i = FORMATION.length - 1; i >= 0; i--) {
+        $(".team-roster").append(`<div id="row${i}" class="player-row"></div>`);
+        let currRow = FORMATION.charAt(i);
         for (let rowLen = 0; rowLen < parseInt(currRow); rowLen++) {
-            $(`#row${j}`).append(
-                `<a class='player-img-link' href="../player/${resp.data.players[playerNum].id}">
-            <p id='player-rating'><b>${resp.data.players[playerNum].rating}</b></p>
-            <img src="../${resp.data.players[playerNum].image}" alt="">
-        </a>`
+            $(`#row${i}`).append(
+                `<a href="#" data-player="${playerNum}" class="empty-player-div">
+                    <img src="../static/images/add_circle_FILL0_wght400_GRAD0_opsz48.png" alt="">
+                </a>`
             );
             playerNum++;
         }
     }
     $(`.team-roster`).append(`<div id="gk" class="player-row"></div>`);
     $(`#gk`).append(
-        `<a class='player-img-link' href="../player/${resp.data.players[playerNum].id}">
-        <p id='player-rating'><b>${resp.data.players[playerNum].rating}</b></p>
-        <img src="../${resp.data.players[playerNum].image}" alt="">
-    </a>`
+        `<div data-player="10" class="empty-player-div">
+            <img src="../static/images/add_circle_FILL0_wght400_GRAD0_opsz48.png" alt="">
+        </div>`
     );
-
-    for (let k = 0; k < Object.keys(resp.data.players).length; k++) {
-        $(`#players`).append(
-            `<a href="/player/${resp.data.players[k].id}">${resp.data.players[k].name}, </a>`
-        );
-    }
 }

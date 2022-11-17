@@ -7,55 +7,58 @@
 <![endif]-->
 <!--[if !(IE 7) | !(IE 8)  ]><!-->
 <html lang="en" class="no-js">
+
 <head>
-	<!-- Basic need -->
-	<title>FUT Web App</title>
-	<meta charset="UTF-8">
-	<meta name="description" content="">
-	<meta name="keywords" content="">
-	<meta name="author" content="">
-	<link rel="profile" href="#">
+    <!-- Basic need -->
+    <title>FUT Web App</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <link rel="profile" href="#">
 
     <!--Google Font-->
     <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600' />
-	<!-- Mobile specific meta -->
-	<meta name=viewport content="width=device-width, initial-scale=1">
-	<meta name="format-detection" content="telephone-no">
+    <!-- Mobile specific meta -->
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone-no">
 
-	<!-- CSS files -->
-	<link rel="stylesheet" href="static/css/plugins.css">
-	<link rel="stylesheet" href="static/css/style.css">
+    <!-- CSS files -->
+    <link rel="stylesheet" href="static/css/plugins.css">
+    <link rel="stylesheet" href="static/css/style.css">
     <script src="https://kit.fontawesome.com/803488e7e5.js" crossorigin="anonymous"></script>
 
 </head>
+
 <body>
-<!--preloading-->
-<div id="preloader">
-    <img class="logo" src="static/images/uploads/Low Resolution Logo - Transparent Background.png" alt="" width="119" height="58">
-    <div id="status">
-        <span></span>
-        <span></span>
+    <!--preloading-->
+    <div id="preloader">
+        <img class="logo" src="static/images/uploads/Low Resolution Logo - Transparent Background.png" alt=""
+            width="119" height="58">
+        <div id="status">
+            <span></span>
+            <span></span>
+        </div>
     </div>
-</div>
-<!--end of preloading-->
-<!--login form popup-->
-<div class="login-wrapper" id="login-content">
-    <div class="login-content">
-        <a href="#" class="close">x</a>
-        <h3>Login</h3>
-        <form action="/login" method="POST" id="user_form">
-            {{ loginform.hidden_tag() }}
-    
-            {% for field in loginform if field.widget.input_type != 'hidden' %}
-              {% for error in field.errors %}
+    <!--end of preloading-->
+    <!--login form popup-->
+    <div class="login-wrapper" id="login-content">
+        <div class="login-content">
+            <a href="#" class="close">x</a>
+            <h3>Login</h3>
+            <form action="/login" method="POST" id="user_form">
+                {{ loginform.hidden_tag() }}
+
+                {% for field in loginform if field.widget.input_type != 'hidden' %}
+                {% for error in field.errors %}
                 <span class="text-danger">{{ error }}</span>
-              {% endfor %}
-              {{ field(placeholder=field.label.text, class="form-control") }}
-            {% endfor %}
-    
-            <button class="btn btn-primary btn-block btn-lg">Log in</button>
-        </form>
-        <!-- <form method="post" action="login.php">
+                {% endfor %}
+                {{ field(placeholder=field.label.text, class="form-control") }}
+                {% endfor %}
+
+                <button class="btn btn-primary btn-block btn-lg">Log in</button>
+            </form>
+            <!-- <form method="post" action="login.php">
         	<div class="row">
         		 <label for="username">
                     Username:
@@ -81,51 +84,52 @@
            	 <button type="submit">Login</button>
            </div>
         </form> -->
+        </div>
     </div>
-</div>
-<!--end of login form popup-->
-<!--signup form popup-->
-<div class="login-wrapper"  id="signup-content">
-    <div class="login-content">
-        <a href="#" class="close">x</a>
-        <h3>sign up</h3>
-        <form action="/signup" method="POST" id="user_form">
-            {{ signupform.hidden_tag() }}
-    
-            {% for field in signupform if field.widget.input_type != 'hidden' %}
-              {% for error in field.errors %}
+    <!--end of login form popup-->
+    <!--signup form popup-->
+    <div class="login-wrapper" id="signup-content">
+        <div class="login-content">
+            <a href="#" class="close">x</a>
+            <h3>sign up</h3>
+            <form action="/signup" method="POST" id="user_form">
+                {{ signupform.hidden_tag() }}
+
+                {% for field in signupform if field.widget.input_type != 'hidden' %}
+                {% for error in field.errors %}
                 <span class="text-danger">{{ error }}</span>
-              {% endfor %}
-              {{ field(placeholder=field.label.text, class="form-control") }}
-            {% endfor %}
-    
-            <button class="btn btn-primary btn-block btn-lg">Log in</button>
-        </form>
+                {% endfor %}
+                {{ field(placeholder=field.label.text, class="form-control") }}
+                {% endfor %}
+
+                <button class="btn btn-primary btn-block btn-lg">Log in</button>
+            </form>
+        </div>
     </div>
-</div>
-<!--end of signup form popup-->
+    <!--end of signup form popup-->
 
-<div class="landing-hero">
-	<img src="static/images/uploads/Low Resolution Logo - Transparent Background.png" alt="Logo">
-	<div class="row landing-hero-text">
+    <div class="landing-hero">
+        <img src="static/images/uploads/Low Resolution Logo - Transparent Background.png" alt="Logo">
+        <div class="row landing-hero-text">
 
-		<h2 class="text-yellow">&middot; Design and buld teams using updated player information</h2>
-		<h2 class="text-yellow">&middot; Access to updated FIFA 22 Ultimate Team Marketplace</h2>
-        <h2 class="text-yellow">&middot; Like and comment on other teams</h2>
-        <h2 class="text-yellow">&middot; Search and filter through teams created by other users</h2>
-	</div>
-	<a href="#" class="redbtn">Sign up</a>
-    <a href="#" class="yellowbtn">Log in</a>
-</div>
-<!-- footer v3 section-->
-<div class="ft-copyright-landing">
-	<p>© 2017 Blockbuster. All Rights Reserved. Designed by haintheme.</p>
-</div>
-<!-- end of footer v3 section-->
+            <h2 class="text-yellow">&middot; Design and buld teams using updated player information</h2>
+            <h2 class="text-yellow">&middot; Access to updated FIFA 22 Ultimate Team Marketplace</h2>
+            <h2 class="text-yellow">&middot; Like and comment on other teams</h2>
+            <h2 class="text-yellow">&middot; Search and filter through teams created by other users</h2>
+        </div>
+        <a href="#" class="redbtn">Sign up</a>
+        <a href="#" class="yellowbtn">Log in</a>
+    </div>
+    <!-- footer v3 section-->
+    <div class="ft-copyright-landing">
+        <p>© 2017 Blockbuster. All Rights Reserved. Designed by haintheme.</p>
+    </div>
+    <!-- end of footer v3 section-->
 
-<script src="static/js/jquery.js"></script>
-<script src="static/js/plugins.js"></script>
-<script src="static/js/plugins2.js"></script>
-<script src="static/js/custom.js"></script>
+    <script src="static/js/jquery.js"></script>
+    <script src="static/js/plugins.js"></script>
+    <script src="static/js/plugins2.js"></script>
+    <script src="static/js/custom.js"></script>
 </body>
+
 </html>

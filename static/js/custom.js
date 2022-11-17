@@ -443,8 +443,10 @@ $(function () {
   //==js for login and sign up
   var loginLink = $(".yellowbtn");
   var signupLink = $(".redbtn");
+  var playerSearch = $(".empty-player-div");
   var loginct = $("#login-content");
   var signupct = $("#signup-content");
+  var playersearchctc = $("#playersearch-content");
   var loginWrap = $(".login-wrapper");
   var overlay = $(".overlay");
   loginWrap.each(function () {
@@ -486,90 +488,109 @@ $(function () {
       }
     });
   });
-  // close popup for mobile
-  var closebt = $(".close");
-  closebt.on("click", function (e) {
-    e.preventDefault();
-    var overlay = $(".overlay");
-    overlay.removeClass("openform");
-  });
-  //js for multi selected
-  var multiselect = $(".ui.fluid.dropdown");
-  multiselect.dropdown({
-    allowLabels: true,
-  });
-  multiselect.dropdown({ "set selected": "Role1,Role2" });
-  //== scroll function for single page
-  $(window).scroll(function (event) {
-    /* Act on the event */
-    var scrollPos = $(window).scrollTop(),
-      header = $("header");
-    //sticky for menu
-    if (scrollPos > 300) {
-      header.addClass("sticky");
-    } else {
-      header.removeClass("sticky");
-    }
-  });
-  //back to top js
-  var backtotop = $("#back-to-top");
-  backtotop.on("click", function (e) {
-    e.preventDefault();
-    $("html,body").animate(
-      {
-        scrollTop: 0,
-      },
-      700
-    );
-  });
-
-  // scroll down landing page
-  var scrolldownlanding = $("#discover-now");
-  scrolldownlanding.on("click", function (e) {
-    e.preventDefault();
-    $("html,body").animate(
-      {
-        scrollTop: $(document).height() - $(window).height(),
-      },
-      700
-    );
-  });
-
-  //sticky sidebar
-  if (windowWidth > 1200) {
-    var stickySidebar = $(".sticky-sb");
-    var mainCt = $(".main-content");
-    if (stickySidebar.length > 0) {
-      var stickyHeight = stickySidebar.height(),
-        sidebarTop = stickySidebar.offset().top;
-    }
-    // on scroll move the sidebar
-    $(window).scroll(function () {
-      if (stickySidebar.length > 0) {
-        var scrollTop = $(window).scrollTop();
-
-        if (sidebarTop < scrollTop) {
-          stickySidebar.css("top", scrollTop - sidebarTop + 80);
-
-          // stop the sticky sidebar at the footer to avoid overlapping
-          var sidebarBottom = stickySidebar.offset().top + stickyHeight,
-            stickyStop = mainCt.offset().top + mainCt.height();
-          if (stickyStop < sidebarBottom) {
-            var stopPosition = mainCt.height() - stickyHeight + 130;
-            stickySidebar.css("top", stopPosition);
-          }
-        } else {
-          stickySidebar.css("top", "0");
-        }
+  //pop up for player search form
+  $('body').on("click", ".empty-player-div", function (event) {
+    event.preventDefault();
+    playersearchctc.parents(overlay).addClass("openform");
+    $(document).on("click", function (e) {
+      var target = $(e.target);
+      if ($(target).hasClass("overlay")) {
+        $(target)
+          .find(playersearchctc)
+          .each(function () {
+            $(this).removeClass("openform");
+          });
+        setTimeout(function () {
+          $(target).removeClass("openform");
+        }, 350);
       }
     });
-    $(window).resize(function () {
-      if (stickySidebar.length > 0) {
-        stickyHeight = stickySidebar.height();
-      }
-    });
+  });
+});
+
+// close popup for mobile
+var closebt = $(".close");
+closebt.on("click", function (e) {
+  e.preventDefault();
+  var overlay = $(".overlay");
+  overlay.removeClass("openform");
+});
+//js for multi selected
+var multiselect = $(".ui.fluid.dropdown");
+multiselect.dropdown({
+  allowLabels: true,
+});
+multiselect.dropdown({ "set selected": "Role1,Role2" });
+//== scroll function for single page
+$(window).scroll(function (event) {
+  /* Act on the event */
+  var scrollPos = $(window).scrollTop(),
+    header = $("header");
+  //sticky for menu
+  if (scrollPos > 300) {
+    header.addClass("sticky");
+  } else {
+    header.removeClass("sticky");
   }
+});
+//back to top js
+var backtotop = $("#back-to-top");
+backtotop.on("click", function (e) {
+  e.preventDefault();
+  $("html,body").animate(
+    {
+      scrollTop: 0,
+    },
+    700
+  );
+});
+
+// scroll down landing page
+var scrolldownlanding = $("#discover-now");
+scrolldownlanding.on("click", function (e) {
+  e.preventDefault();
+  $("html,body").animate(
+    {
+      scrollTop: $(document).height() - $(window).height(),
+    },
+    700
+  );
+});
+
+//sticky sidebar
+if (windowWidth > 1200) {
+  var stickySidebar = $(".sticky-sb");
+  var mainCt = $(".main-content");
+  if (stickySidebar.length > 0) {
+    var stickyHeight = stickySidebar.height(),
+      sidebarTop = stickySidebar.offset().top;
+  }
+  // on scroll move the sidebar
+  $(window).scroll(function () {
+    if (stickySidebar.length > 0) {
+      var scrollTop = $(window).scrollTop();
+
+      if (sidebarTop < scrollTop) {
+        stickySidebar.css("top", scrollTop - sidebarTop + 80);
+
+        // stop the sticky sidebar at the footer to avoid overlapping
+        var sidebarBottom = stickySidebar.offset().top + stickyHeight,
+          stickyStop = mainCt.offset().top + mainCt.height();
+        if (stickyStop < sidebarBottom) {
+          var stopPosition = mainCt.height() - stickyHeight + 130;
+          stickySidebar.css("top", stopPosition);
+        }
+      } else {
+        stickySidebar.css("top", "0");
+      }
+    }
+  });
+  $(window).resize(function () {
+    if (stickySidebar.length > 0) {
+      stickyHeight = stickySidebar.height();
+    }
+  });
+}
   // $(window).on('load',function() {
 
   // });
-});
