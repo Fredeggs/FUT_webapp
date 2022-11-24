@@ -223,11 +223,37 @@ def get_team():
 
 
 @app.route("/create-team")
-def create_team():
+def create_team_page():
     if g.user:
+        print(g.user.id)
         return render_template("create-team.html")
     else:
         return redirect("/")
+
+@app.route("/api/create-team", methods=["POST"])
+def create_team():
+    if g.user:
+        data = request.get_json(force=True)
+        team_data = data.get("newTeamData")
+        name = team_data.get("name")
+        rating = team_data.get("rating")
+        formation = team_data.get("formation")
+        players = team_data.get("players")
+        print(players)
+        user_id = g.user.id
+
+        new_team = Team(
+            name=name,
+            formation_id=formation,
+            user_id=user_id,
+            rating=rating,
+        )
+        db.session.add(new_team)
+        db.session.commit()
+
+    return jsonify()
+    # else:
+    #     return redirect("/")
 
 
 @app.route("/api/teams", methods=["GET"])

@@ -446,7 +446,6 @@ $(function () {
   var playerSearch = $(".empty-player-div");
   var loginct = $("#login-content");
   var signupct = $("#signup-content");
-  var playersearchctc = $("#playersearch-content");
   var loginWrap = $(".login-wrapper");
   var overlay = $(".overlay");
   loginWrap.each(function () {
@@ -479,24 +478,6 @@ $(function () {
       if ($(target).hasClass("overlay")) {
         $(target)
           .find(signupct)
-          .each(function () {
-            $(this).removeClass("openform");
-          });
-        setTimeout(function () {
-          $(target).removeClass("openform");
-        }, 350);
-      }
-    });
-  });
-  //pop up for player search form
-  $('body').on("click", ".empty-player-div", function (event) {
-    event.preventDefault();
-    playersearchctc.parents(overlay).addClass("openform");
-    $(document).on("click", function (e) {
-      var target = $(e.target);
-      if ($(target).hasClass("overlay")) {
-        $(target)
-          .find(playersearchctc)
           .each(function () {
             $(this).removeClass("openform");
           });
@@ -591,6 +572,6 @@ if (windowWidth > 1200) {
     }
   });
 }
-  // $(window).on('load',function() {
+// $(window).on('load',function() {
 
-  // });
+// });

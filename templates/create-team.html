@@ -2,21 +2,21 @@
 
 {% block popup %}
 <div class="login-wrapper" id="playersearch-content">
-    <div class="login-content">
+    <div  class="login-content">
         <a href="#" class="close">x</a>
         <h3>Search Player</h3>
-        <form action="#">
+        <form id="search">
             <div class="row">
                 <label for="username">
                     Player Name:
-                    <input type="text" name="username" id="username" placeholder="Hugh Jackman"
-                        pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{8,20}$" required="required" />
+                    <input id="search-name" type="text" placeholder="Enter keywords">
                 </label>
             </div>
             <div class="row">
                 <button type="submit">Search</button>
             </div>
         </form>
+        <div id="search-popup"></div>
     </div>
 </div>
 {% endblock %}
@@ -27,10 +27,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="hero-ct">
-                    <h1>
-                        <label for="team-name">Team Name</label>
-                        <input id="team-name" type="text" placeholder="Input Team Name Here">
-                    </h1>
+                    <h1>Create A Team</h1>
                 </div>
             </div>
         </div>
@@ -50,40 +47,41 @@
             <div class="col-md-3 col-sm-12 col-xs-12">
                 <div class="sidebar">
                     <div class="sb-cate sb-it">
-                        <h4 class="sb-title">Team Stats</h4>
+                        <h4 class="sb-title">Team Config</h4>
                         <ul>
+                            <li>
+                                <label for="team-name">Team Name</label>
+                                <input id="team-name" type="text" placeholder="Input Team Name Here">
+                            </li>
                             <li>
                                 <a>Formation</a>
                                 <select name="formation" id="formation">
-                                    <option value="3142">3-1-4-2</option>
-                                    <option value="3412">3-4-1-2</option>
-                                    <option value="3421">3-4-2-1</option>
-                                    <option value="343">3-4-3</option>
-                                    <option value="352">3-5-2</option>
-                                    <option value="41212">4-1-2-1-2</option>
-                                    <option value="4132">4-1-3-2</option>
-                                    <option value="4141">4-1-4-1</option>
-                                    <option value="4222">4-2-2-2</option>
-                                    <option value="4231">4-2-3-1</option>
-                                    <option value="424">4-2-4</option>
-                                    <option value="4312">4-3-1-2</option>
-                                    <option value="4321">4-3-2-1</option>
-                                    <option value="433">4-3-3</option>
-                                    <option value="4411">4-4-1-1</option>
-                                    <option value="442" selected>4-4-2</option>
-                                    <option value="451">4-5-1</option>
-                                    <option value="5212">5-2-1-2</option>
-                                    <option value="5221">5-2-2-1</option>
-                                    <option value="532">5-3-2</option>
-                                    <option value="541">5-4-1</option>
+                                    <option value="1">3-1-4-2</option>
+                                    <option value="2">3-4-1-2</option>
+                                    <option value="3">3-4-2-1</option>
+                                    <option value="4">3-4-3</option>
+                                    <option value="5">3-5-2</option>
+                                    <option value="6">4-1-2-1-2</option>
+                                    <option value="7">4-1-3-2</option>
+                                    <option value="8">4-1-4-1</option>
+                                    <option value="9">4-2-2-2</option>
+                                    <option value="10">4-2-3-1</option>
+                                    <option value="11">4-2-4</option>
+                                    <option value="12">4-3-1-2</option>
+                                    <option value="13">4-3-2-1</option>
+                                    <option value="14">4-3-3</option>
+                                    <option value="15">4-4-1-1</option>
+                                    <option value="16" selected>4-4-2</option>
+                                    <option value="17">4-5-1</option>
+                                    <option value="18">5-2-1-2</option>
+                                    <option value="19">5-2-2-1</option>
+                                    <option value="20">5-3-2</option>
+                                    <option value="21">5-4-1</option>
                                 </select>
                             </li>
-                            <li><a>Average Pace: {{ pace }}</a></li>
-                            <li><a>Average Shooting: {{ shooting }}</a></li>
-                            <li><a>Average Passing: {{ passing }}</a></li>
-                            <li><a>Average Dribbling: {{ dribbling }}</a></li>
-                            <li><a>Average Defending: {{ defending }}</a></li>
-                            <li><a>Average Physicality: {{ physicality }}</a></li>
+                            <li>
+                                <button id="create-team-btn" disabled="disabled">Submit</button>
+                            </li>
                         </ul>
                     </div>
                     <div class="ads">

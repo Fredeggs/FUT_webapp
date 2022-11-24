@@ -8295,7 +8295,7 @@ p.ceb-single {
 
 .overlay .login-content {
   width: 430px;
-  padding: 50px;
+  padding: 30px;
   border: 1px solid #e1e1e1;
   height: auto;
   background-color: #ffffff;
@@ -10062,10 +10062,35 @@ footer.full-width-ft .ft-copyright {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: gold;
+  background-color: grey;
   height: 100px;
   width: 100px;
   border-radius: 10%;
   padding-left: 4%;
   margin-right: 3%;
 }
+
+#search-popup {
+  display: flex;
+  align-items: flex-start;
+  height: 550px;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.player-listing {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  margin-top: 5px;
+  width: 185px;
+}
+
+#listing-img {
+  height: 50px;
+  background-color: gold;
+  border-radius: 10%;
+}
+

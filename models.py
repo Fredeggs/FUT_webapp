@@ -138,6 +138,7 @@ class Team(db.Model):
     price = db.Column(
         db.Integer,
         nullable=False,
+        default=0,
     )
 
     timestamp = db.Column(
