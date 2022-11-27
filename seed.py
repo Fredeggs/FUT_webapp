@@ -14,7 +14,7 @@ API_HEADERS = {
 }
 
 users = [
-    User(id=2, email="test_email1@gmail.com", username="test_user1", password="test"),
+    User(id=2, email="test_email1@gmail.com", bio="Bio for test_user1", username="test_user1", password="test"),
     User(id=3, email="test_email2@gmail.com", username="test_user2", password="test"),
 ]
 
@@ -144,8 +144,7 @@ db.session.commit()
 likes = [
     Likes(user_id=2, team_id=1),
     Likes(user_id=2, team_id=2),
-    Likes(user_id=2, team_id=2),
-    Likes(user_id=3, team_id=2),
+    Likes(user_id=3, team_id=1),
 ]
 
 db.session.add_all(likes)

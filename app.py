@@ -11,9 +11,10 @@ from sqlalchemy import func, or_
 from sqlalchemy.exc import IntegrityError
 import requests
 import json
+from itertools import islice
 
 from forms import UserAddForm, LoginForm
-from models import Club, Formation, Nation, Player, Team, db, connect_db, User, Likes
+from models import Club, Formation, Nation, Player, Team, db, connect_db, User, Likes, RosterAssignment
 
 CURR_USER_KEY = "curr_user"
 
@@ -251,9 +252,19 @@ def create_team():
         db.session.add(new_team)
         db.session.commit()
 
-    return jsonify()
-    # else:
-    #     return redirect("/")
+        new_roster_assignments = []
+        for key, value in islice(players.items(), 11):  # use islice(d.items(), 3) to iterate over key/value pairs
+            new_roster_assignments.append(RosterAssignment(player_id=value["playerID"], team_id=new_team.id))
+        db.session.add_all(new_roster_assignments)
+        db.session.commit()
+
+        first_like = Likes(user_id=user_id, team_id=new_team.id)
+        db.session.add(first_like)
+        db.session.commit()
+
+        return redirect(f"/teams/{new_team.id}")
+    else:
+        return redirect("/")
 
 
 @app.route("/api/teams", methods=["GET"])
@@ -455,4 +466,47 @@ def display_profile(id):
         user = db.session.query(User).get_or_404(id)
         
         return render_template("profile.html", user=user)
+
+@app.route("/api/users/<id>", methods=["GET"])
+def get_profile_info(id):
+    if g.user:
+
+        teams_sort = request.args.get("teams-sort")
+        likes_sort = request.args.get("likes-sort")
+
+        user_teams = (
+                db.session.query(
+                    Team,
+                    func.count(Team.likes).label("total_likes"),
+                )
+                .join(Likes)
+                .filter(Team.user_id == id)
+                .group_by(Team)
+                .order_by(Team.rating.desc())
+                .all()
+            )
+
+        liked_teams = (
+                db.session.query(
+                    Team,
+                    func.count(Team.likes).label("total_likes"),
+                )
+                .join(Likes)
+                .filter(Likes.user_id == id)
+                .group_by(Team)
+                .order_by(Team.rating.desc())
+                .all()
+            )
+
+        user_teams_list = [
+                {"team": team[0].serialize(), "likes": team[1]} for team in user_teams
+            ]
+        
+        liked_teams_list = [
+                {"team": team[0].serialize(), "likes": team[1]} for team in liked_teams
+            ]
+
+        return jsonify({"user_teams": user_teams_list, "liked_teams": liked_teams_list})
+    else:
+        return redirect("/")
 

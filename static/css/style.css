@@ -10048,6 +10048,11 @@ footer.full-width-ft .ft-copyright {
   padding-right: 15px;
 }
 
+#roster-img {
+  margin-top: -5px;
+  margin-right: -25px;
+}
+
 #player-rating {
   align-self: flex-start;
   justify-self: flex-end;
@@ -10094,3 +10099,6 @@ footer.full-width-ft .ft-copyright {
   border-radius: 10%;
 }
 
+#xmark {
+  color: red;
+}

@@ -26,6 +26,8 @@ async function getTeams() {
     },
   });
 
+  console.log(resp);
+
   $(".movie-item-style-2").remove();
   $("#pagination").remove();
 

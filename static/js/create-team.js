@@ -51,10 +51,10 @@ function displayTeam() {
         playerNum++;
       } else {
         $(`#row${i}`).append(
-          `<a href="#" data-player="${playerNum}" class="player-img-link">
+          `<div data-player="${playerNum}" class="player-img-link">
             <p id='player-rating'><b>${playerRoster[playerNum]["playerRating"]}</b></p>
             <img src="../${playerRoster[playerNum]["playerImg"]}" alt="">
-          </a>`
+          </div>`
         );
         playerNum++;
       }
@@ -70,10 +70,10 @@ function displayTeam() {
   } else {
     $(`.team-roster`).append(`<div id="gk" class="player-row"></div>`);
     $(`#gk`).append(
-      `<a href="#" data-player="${playerNum}" class="player-img-link">
+      `<div data-player="${playerNum}" class="player-img-link">
         <p id='player-rating'><b>${playerRoster[playerNum]["playerRating"]}</b></p>
         <img src="../${playerRoster[playerNum]["playerImg"]}" alt="">
-      </a>`
+      </div>`
     );
   }
 }
@@ -122,13 +122,17 @@ $("body").on("click", ".player-listing", function (event) {
     playerImg: playerImg,
   };
 
+  console.log(playerRoster);
+
   $(`a[data-player="${rosterPosition}"]`)
     .removeClass("empty-player-div")
+    .removeAttr("href")
     .addClass("player-img-link")
     .empty()
     .append(
       `<p id='player-rating'><b>${playerRating}</b></p>
-      <img src="../${playerImg}" alt="">`
+      <img id="roster-img" src="../${playerImg}" alt="">
+      <a href="" id="xmark"><i class="fa-solid fa-xmark"></i></a>`
     );
 
   if (Object.keys(playerRoster).length === 11) {
@@ -137,6 +141,21 @@ $("body").on("click", ".player-listing", function (event) {
 
   $(".openform").removeClass("openform");
 });
+
+$("body").on("click", "#xmark", function (event) {
+  event.preventDefault();
+  rosterPosition = $(event.target).parent().parent().data("player");
+  $(`a[data-player="${rosterPosition}"]`)
+    .removeClass("player-img-link")
+    .attr("href", "#")
+    .addClass("empty-player-div")
+    .empty()
+    .append(
+      `<img src="../static/images/add_circle_FILL0_wght400_GRAD0_opsz48.png" alt="">`
+    );
+  delete playerRoster[rosterPosition];
+  console.log(playerRoster);
+})
 
 $("body").on("click", "#create-team-btn", async function (event) {
   event.preventDefault();

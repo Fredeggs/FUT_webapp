@@ -48,6 +48,12 @@ class User(db.Model):
         default="/static/images/default-pic.png",
     )
 
+    bio = db.Column(
+        db.Text,
+        nullable=True,
+        default="This user has not written a bio yet"
+    )
+
     password = db.Column(
         db.Text,
         nullable=False,
