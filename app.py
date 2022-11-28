@@ -171,6 +171,9 @@ def team_page(id):
     if g.user:
         team = db.session.query(Team).get_or_404(id)
 
+        likes = db.session.query(Likes).filter(Likes.team_id == id).all()
+        print(likes)
+
         total_rating = 0
         for player in team.players:
             total_rating += player.rating
@@ -207,7 +210,7 @@ def team_page(id):
         avg_physicality = int(total_physicality/11)
 
 
-        return render_template("team.html", team=team, rating=avg_rating, pace=avg_pace, shooting=avg_shooting, dribbling=avg_dribbling, passing=avg_passing, defending=avg_defending, physicality=avg_physicality)
+        return render_template("team.html", likes=likes, team=team, rating=avg_rating, pace=avg_pace, shooting=avg_shooting, dribbling=avg_dribbling, passing=avg_passing, defending=avg_defending, physicality=avg_physicality)
     else:
         return redirect("/")
 
