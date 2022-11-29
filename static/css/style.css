@@ -4536,9 +4536,9 @@ a {
   border-bottom: 1px solid dotted;
 }
 
-a:hover {
+/* a:hover {
   color: #020d18;
-}
+} */
 
 p {
   margin-bottom: 10px;
@@ -10101,4 +10101,21 @@ footer.full-width-ft .ft-copyright {
 
 #xmark {
   color: red;
+}
+
+.thumbs-up {
+  color: grey;
+}
+
+.thumbs-up.liked {
+  color: red;
+}
+
+#thumbs-up {
+  scale: 2;
+  margin-left: 10px;
+}
+
+#likes-count {
+  margin-left: 10px;
 }

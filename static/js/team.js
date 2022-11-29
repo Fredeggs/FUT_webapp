@@ -47,3 +47,23 @@ async function getTeams() {
     );
   }
 }
+
+$("body").on("click", "#thumbs-up", async function () {
+  let data = {
+    teamID: teamID
+  };
+  if ($(".thumbs-up").hasClass("liked")) {
+    $(".thumbs-up").removeClass("liked");
+    await axios.post("/api/team/unlike", { data });
+
+    let likesCount = parseInt($("#likes-count").text()) - 1
+    $("#likes-count").text(likesCount)
+  } else {
+    $(".thumbs-up").addClass("liked");
+    await axios.post("/api/team/like", { data });
+
+    let likesCount = parseInt($("#likes-count").text()) + 1
+    $("#likes-count").text(likesCount)
+  }
+})
+

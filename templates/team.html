@@ -38,7 +38,14 @@
 					<div class="sb-cate sb-it">
 						<h4 class="sb-title">Social</h4>
 						<ul>
-							<li><a>Likes: {{ length(likes) }}</a></li>
+							{% if liked == 0 %}
+							<a class="thumbs-up"><i id="thumbs-up" class="fa-solid fa-heart"></i></i></a>
+							{% else %}
+							<a class="thumbs-up liked"><i id="thumbs-up" class="fa-solid fa-heart"></i></i></a>
+							{% endif %}
+							<a id="likes-count">
+								{{ likes|length }}
+							</a>
 						</ul>
 					</div>
 					<div class="ads">

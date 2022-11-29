@@ -166,6 +166,7 @@ $("body").on("click", "#create-team-btn", async function (event) {
     players: playerRoster,
   };
   console.log(newTeamData);
-  await axios.post("/api/create-team", { newTeamData });
-  console.log("data sent!");
+  createTeamResp = await axios.post("/api/create-team", { newTeamData });
+  teamID = createTeamResp.data["teamID"]
+  window.location.replace(`../teams/${teamID}`);
 });

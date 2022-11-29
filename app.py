@@ -172,7 +172,10 @@ def team_page(id):
         team = db.session.query(Team).get_or_404(id)
 
         likes = db.session.query(Likes).filter(Likes.team_id == id).all()
-        print(likes)
+        liked_by = [like.user_id for like in likes]
+        liked = 0
+        if g.user.id in liked_by:
+            liked = 1
 
         total_rating = 0
         for player in team.players:
@@ -210,7 +213,7 @@ def team_page(id):
         avg_physicality = int(total_physicality/11)
 
 
-        return render_template("team.html", likes=likes, team=team, rating=avg_rating, pace=avg_pace, shooting=avg_shooting, dribbling=avg_dribbling, passing=avg_passing, defending=avg_defending, physicality=avg_physicality)
+        return render_template("team.html", liked=liked, likes=likes, team=team, rating=avg_rating, pace=avg_pace, shooting=avg_shooting, dribbling=avg_dribbling, passing=avg_passing, defending=avg_defending, physicality=avg_physicality)
     else:
         return redirect("/")
 
@@ -224,6 +227,29 @@ def get_team():
         return jsonify(team.serialize())
     else:
         return redirect("/")
+
+@app.route("/api/team/like", methods=["POST"])
+def like_team():
+    if g.user:
+        data = request.get_json(force=True)
+        team_id = data.get("data").get("teamID")
+
+        new_like = Likes(user_id=g.user.id, team_id=team_id)
+        db.session.add(new_like)
+        db.session.commit()
+        return jsonify()
+
+@app.route("/api/team/unlike", methods=["POST"])
+def unlike_team():
+    if g.user:
+        data = request.get_json(force=True)
+        team_id = data.get("data").get("teamID")
+        queries = [Likes.team_id == int(team_id), Likes.user_id == int(g.user.id)]
+
+        deleted_like = db.session.query(Likes).filter(*queries).first()
+        db.session.delete(deleted_like)
+        db.session.commit()
+        return jsonify()
 
 
 @app.route("/create-team")
@@ -265,7 +291,7 @@ def create_team():
         db.session.add(first_like)
         db.session.commit()
 
-        return redirect(f"/teams/{new_team.id}")
+        return jsonify({"teamID": new_team.id})
     else:
         return redirect("/")
 
