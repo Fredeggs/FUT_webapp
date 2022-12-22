@@ -1,7 +1,7 @@
 # FUT (FIFA Ultimate Team) Web App
 
 ## What does this app do?
-The FUT Web App is a tool for people who like to play the latest FIFA games, specifically in the Ultimate Team game mode. This app will allow users to build and share teams with other users on the app. Teams are made up of players and each player has his own stats, nationality and club. All player data is updated and managed through the futdb API (https://futdb.app/api/doc).
+The FUT Web App is a tool for people who like to play the latest FIFA games, specifically in the Ultimate Team game mode. This app will allow users to build and share teams with other users on the app. Teams are made up of players and each player has its own name, stats, nationality and club. All player data is updated and managed through the futdb API (https://futdb.app/api/doc).
 
 ## App Features
 ### Team Building
