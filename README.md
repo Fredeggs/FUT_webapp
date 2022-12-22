@@ -10,7 +10,7 @@ Users can go to a blank team sheet, select a formation, and individually add pla
 ### Team Filtering
 Users can easily filter through teams on the '/teams' route by selecting a dropdown box to filter by date, rating, price, etc. This feature allows users to gain inspiration from others and even copy/tweek existing teams.
 
-## Like and Comment on Teams
+### Like and Comment on Teams
 Users can like or comment on teams made by the user or other users. This can provide feedback or compliments to the creator of the team. This can also improve the filtering tool by filtering for the most liked team or the most commented team.
 
 ### Player Search
